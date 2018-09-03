@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Requests\Request;
 use Closure;
 
 class HomeInitMiddleware
@@ -15,7 +16,16 @@ class HomeInitMiddleware
      */
     public function handle($request, Closure $next)
     {
-        echo 'this is Home init' ,'<br/>';
+        $this->access($request);
         return $next($request);
+    }
+
+    /**
+     * @param $request  \Illuminate\Http\Request
+     */
+    protected function access($request)
+    {
+        echo $request->fullUrl(),'<br/>';
+        echo 'this is Home MiddleWare' ,'<br/><br/><br/>';
     }
 }

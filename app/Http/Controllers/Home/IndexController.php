@@ -16,7 +16,7 @@ class IndexController extends Controller
 
     public function show()
     {
-        echo route('Home#i_show', ['id' => 11]),'<br/>';//获取路由地址：http://www.laravel.cn/Index/show?id=11
+        echo route('home#Home.Index.show', ['id' => 11]),'<br/>';//获取路由地址：http://www.laravel.cn/Index/show?id=11
         return 'this is route as name';
     }
 

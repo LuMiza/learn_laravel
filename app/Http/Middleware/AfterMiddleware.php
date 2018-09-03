@@ -15,6 +15,7 @@ class AfterMiddleware
      */
     public function handle($request, Closure $next)
     {
+        echo 'after middleware <br/>';
         return $next($request);
     }
 }

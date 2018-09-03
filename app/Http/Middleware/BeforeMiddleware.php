@@ -15,6 +15,7 @@ class BeforeMiddleware
      */
     public function handle($request, Closure $next)
     {
+        echo 'before middleware <br/>';
         return $next($request);
     }
 }
