@@ -14,10 +14,9 @@ class IndexController extends Controller
         return view('Home/Index/index');
     }
 
-    public function ras()
+    public function show()
     {
-        echo route('uadd'),'<br/>';
-        echo url('uadd'),'<br/>';
+        echo route('Home#i_show', ['id' => 11]),'<br/>';//获取路由地址：http://www.laravel.cn/Index/show?id=11
         return 'this is route as name';
     }
 
