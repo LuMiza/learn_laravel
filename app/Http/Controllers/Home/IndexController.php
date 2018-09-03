@@ -14,10 +14,9 @@ class IndexController extends Controller
         return view('Home/Index/index');
     }
 
-    public function ras()
+    public function show()
     {
-        echo route('uadd'),'<br/>';
-        echo url('uadd'),'<br/>';
+        echo route('Home#i_show'),'<br/>';
         return 'this is route as name';
     }
 
