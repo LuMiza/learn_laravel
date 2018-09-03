@@ -9,7 +9,7 @@ Route::group(
     [
         'as' => 'home#',
         'prefix' => '',
-        'middleware' => 'home.init',
+        'middleware' => ['home.init'],
     ],
     function(){
 

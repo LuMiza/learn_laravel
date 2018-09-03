@@ -8,6 +8,13 @@
   
   * [个人总结]    关于路由的别名 可以按照如下规则命名  比如执行控制器`OrdersController`的index方法在`Home\Goods\OrdersController`那么别名可以如此命名`Home.Goods.Orders.index`,如此规定方便理解与避免重名
   
+### 中间件
+  * 多个中间件的使用  `'middleware' => ['home.init', 'home.user'],`
+  * laravel5.1中没有中间组的概念
+  
+  
+  
+  
   
   
   

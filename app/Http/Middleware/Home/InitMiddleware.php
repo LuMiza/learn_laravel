@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware\Home;
 
-use App\Http\Requests\Request;
 use Closure;
 
-class HomeInitMiddleware
+class InitMiddleware
 {
     /**
      * Handle an incoming request.
@@ -25,7 +24,7 @@ class HomeInitMiddleware
      */
     protected function access($request)
     {
-        echo $request->fullUrl(),'<br/>';
-        echo 'this is Home MiddleWare' ,'<br/><br/><br/>';
+        echo 'home init middleware ' ,$request->fullUrl(),'<br/>';
+        echo 'Home init MiddleWare' ,'<br/><br/><br/>';
     }
 }

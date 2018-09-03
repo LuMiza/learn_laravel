@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware\Home;
 
 use Closure;
 
-class AfterMiddleware
+class UserMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,11 +15,7 @@ class AfterMiddleware
      */
     public function handle($request, Closure $next)
     {
-
-        $response = $next($request);
-
-        // 运行动作
-        echo 'after middleware <br/>';
-        return $response;
+        echo 'home user MiddleWare' ,'<br/><br/><br/>';
+        return $next($request);
     }
 }
