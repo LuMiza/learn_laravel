@@ -9,7 +9,7 @@ Route::group(
     [
         'as' => 'home#',
         'prefix' => '',
-        'middleware' => ['home.init'],
+//        'middleware' => ['home.init'],
     ],
     function(){
 
@@ -21,6 +21,13 @@ Route::group(
     Route::get('/Index/show',  ['uses' => 'Home\IndexController@show'])->name('Home.Index.show');
 
     Route::get('/User/index', ['uses' => 'Home\UserController@index'])->name('Home.User.index');
+
+    //隐式控制器
+    Route::controller('User','Home\UserController', [
+        'getShow' => 'Home.User.show'/* 路由别名  [分派路由 ]*/
+    ]);
+
+
 
 
 });

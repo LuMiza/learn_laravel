@@ -13,4 +13,13 @@ class UserController extends InitController
     {
         return 'this is home user index action';
     }
+
+    /**
+     * 响应对 GET /users/show/1 的请求
+     */
+    public function getShow()
+    {
+        echo \Route::currentRouteName();
+    }
+
 }
