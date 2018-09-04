@@ -27,7 +27,9 @@ Route::group(
         'getShow' => 'Home.User.show'/* 路由别名  [分派路由 ]*/
     ]);
 
-
+    Route::get('/u', function (\Psr\Http\Message\ServerRequestInterface $request) {
+        var_dump($request->getHeaders());
+    });
 
 
 });
