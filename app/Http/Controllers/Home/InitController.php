@@ -11,6 +11,6 @@ class InitController extends Controller
 {
     public function __construct()
     {
-        echo '<span style="color:green;font-weight: bold;">this is home controller init rumble</span><br/><br/><br/>';
+//        echo '<span style="color:green;font-weight: bold;">this is home controller init rumble</span><br/><br/><br/>';
     }
 }

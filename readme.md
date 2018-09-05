@@ -17,8 +17,82 @@
    * 【PSR-7 请求】在控制器或路由就可以获取http的请求信息  即$_SERVER $_COOKIE  $_SESSION  $_GET $_POST  变量的信息 ,等http请求的全部信息
    
    * laravel的闪存在首次请求时候保存到session中，第二次请求时候使用，第三次请求前被清，同时重新缓存，【主要用于第一次表单提交失败后   重新跳转表单中的数据不需要重新填写   提高用户体验】
+  
+### 响应  
+   * 【jsonp 演示】 json数据地址[服务器端]`http://www.tp5.com:8080/index.php/Index/Index?callback=showdata`  以下是该地址的处理代码
    
-   
+```php
+            $data = [
+                'name' => 'this is go to shopping',
+                'img' => 'http://www.baidu.com',
+                'price' => 88.99,
+                'date' => '2018-09-05 18:00:00',
+            ];
+            //header("Access-Control-Allow-Origin:*");//jsonp 演示的时候 不要加这个
+            header('Content-Type: application/json; charset=utf-8');
+            header('yoke-content: this is my thinkphp 5');
+            if ($this->request->param('callback')) {
+                 echo $this->request->param('callback') ,'(' , json_encode($data) , ');';
+            } else {
+                echo json_encode($data);
+            }
+            //return json($data);
+            exit;
+```
+* 客户端代码  地址：`http://www.laravel.cn/User/jsonp`
+```javascript
+  $('button').click(function(){
+      $.ajax({
+           url: "http://www.tp5.com:8080/index.php/Index/Index",
+           type: "GET",
+           dataType:'json',
+           success: function (data) {
+               console.info("调用success");
+              console.log(data);
+           }
+      }); 
+  });
+```
+* 以上客户端请求就会出现无法跨域获取json数据【报错】
+`jsonp:1 Failed to load http://www.tp5.com:8080/index.php/Index/Index: No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://www.laravel.cn' is therefore not allowed access.`
+
+###### A
+```html
+<script src="http://www.tp5.com:8080/index.php/Index/Index?callback=showdata" type="text/javascript"></script>
+```
+*  如果使用以上方式获取  将会获取到   response结果：
+```javascript
+showdata({"name":"this is go to shopping","img":"http:\/\/www.baidu.com","price":88.99,"date":"2018-09-05 18:00:00"});
+```
+
+* 因此我们要在`A`处前定义如下方法，这样就可以获取跨域得json数据，这样获取跨域数据就可以解决，这就是jsonp
+```html
+<script>
+    function showdata(result){
+        console.log(result);
+    }
+</script>
+```
+*  如何通过jquery $.ajax获取跨域数据`[jsonp形式的ajax请求:并且通过get请求的方式传入参数,注意:跨域请求是只能是get请求不能使用post请求]`
+```javascript
+            $.ajax({
+                 url: "http://www.tp5.com:8080/index.php/Index/Index",
+                 type: "GET",
+                 dataType: "jsonp",  //指定服务器返回的数据类型
+                 jsonp: "callback",   //指定参数名称
+                 jsonpCallback: "success",  //指定回调函数名称
+                 success: function (data) {
+                     console.info("调用success");
+                     console.log(data);
+                 }
+            });
+```
+
+
+
+
+
+
    
   
   

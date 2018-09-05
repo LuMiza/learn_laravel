@@ -7,12 +7,14 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends InitController
 {
     public function index()
     {
-        return 'this is home user index action';
+        echo  'this is home user index action';
+        echo  route('home#Home.User.index');
     }
 
     /**
@@ -50,4 +52,32 @@ class UserController extends InitController
 //        print_r( $request->session()->getId() );
         print_r($request->except());
     }
+
+    /**
+     * http 响应
+     */
+    public function getResponse(Request $request)
+    {
+        /*return response('rumble')
+            ->header('Content-Type', 'text/html')
+            ->header('X-Header-One', 'Header Value')
+            ->header('X-Header-Two', 'Header Value');*/
+//        return response()->json(['name' => 'Abigail', 'state' => 'CA']);
+//        return response()->json(['name' => 'Abigail', 'state' => 'CA'])->setCallback($request->input('callback'));
+//        print_r($request->header('Content-Type'));
+    }
+
+    /**
+     * jsonp 功能演示
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getJsonp()
+    {
+//        return view('Home/User/jsonp');
+//        return back();
+//        return redirect()->action('Home\UserController@index');
+    }
+
+
+
 }
