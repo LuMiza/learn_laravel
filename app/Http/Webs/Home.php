@@ -31,6 +31,10 @@ Route::group(
         var_dump($request->getHeaders());
     });
 
+    Route::get('/db/index','Home\DbDemoController@index')->name('Home.DbDemo.index');
+
+    Route::controller('/db','Home\DbDemoController');
+
 
 });
 

@@ -88,6 +88,13 @@ showdata({"name":"this is go to shopping","img":"http:\/\/www.baidu.com","price"
             });
 ```
 
+### php对象注入
+
+* 用到的知识点为`ReflectionMethod`和`ReflectionClass`，代码示例在public目录下的注入，其中`zhuru.php`是简单的示例，`index.php`为将其封装后并且采用命名空间的方式的示例代码
+
+
+
+
 
 
 
