@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>WDPHP后台模板布局</title>
+    <link rel="stylesheet" href="res/layui/css/layui.css">
+    <link rel="stylesheet" href="res/wdfont/iconfont.css">
+    <link rel="stylesheet" href="res/css/main.css">
+</head>
+
+<body>
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo">WDPHP后台模板布局</div>
+            <!-- 头部区域 -->
+            <ul class="layui-nav layui-layout-right" lay-filter="UserNav">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <img src="res/images/avatar.png" class="layui-nav-img">
+                        WDPHP素材源码
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" data-url="examples/form.html" data-id="22">基本资料</a><dd>
+                        <dd><a href="javascript:;" data-url="examples/form.html" data-id="23">安全设置</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;"><i class="layui-icon">&#xe629;</i>主题</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" data-skin="0">默认</a></dd>
+                        <dd><a href="javascript:;" data-skin="1">蓝白</a></dd>
+                    </dl>
+            	</li>
+                <li class="layui-nav-item"><a href="">注销</a></li>
+            </ul>
+        </div>
+
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <ul class="layui-nav layui-nav-tree" lay-filter="leftNav">
+                    <li class="layui-nav-item layui-this"><a href="javascript:;" data-options="{'id':'0','title':'首页','icon':'fa-home','url':''}"><i class="wdfont wdicon-shouye"></i>首页</a></li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;"><i class="wdfont wdicon-kuozhanicon"></i>官方示例</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;" data-url="examples/button.html" data-id="2001">按钮</a></dd>
+                            <dd><a href="javascript:;" data-url="examples/form.html" data-id="2002">表单</a></dd>
+                            <dd><a href="javascript:;" data-url="examples/nav.html" data-id="2003">导航/面包屑</a></dd>
+                            <dd><a href="javascript:;" data-url="examples/tab.html" data-id="2004">选项卡</a></dd>
+                            <dd><a href="javascript:;" data-url="examples/progress.html" data-id="2005">进度条</a></dd>
+                            <dd><a href="javascript:;" data-url="examples/collapse.html" data-id="2006">折叠面板</a></dd>
+                            <dd><a href="javascript:;" data-url="examples/timeline.html" data-id="2008">时间线</a></dd>
+                            <dd><a href="javascript:;" data-url="examples/table.html" data-id="2009">静态表格</a></dd>
+                            <dd><a href="javascript:;" data-url="examples/auxiliar.html" data-id="2011">辅助元素</a></dd>
+                            <dd><a href="http://www.layui.com/demo/" target="_blank">更多示例</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item ">
+                        <a class="" href="javascript:;"><i class="wdfont wdicon-iconfontdengdai"></i>扩展</a>
+                        <dl class="layui-nav-child">
+                           <dd><a href="javascript:;" data-url="extend/table.html" data-id="4001"><i class="fa fa-table" data-icon="fa-table"></i>数据表格</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item ">
+                        <a class="" href="javascript:;"><i class="wdfont wdicon-youqingwailian"></i>链接</a>
+                        <dl class="layui-nav-child">
+							<dd><a href="javascript:;" data-url="http://www.wdphp.com" data-id="1000"><i class="wdfont wdicon-W" data-icon="fa-qq"></i>WDPHP素材源码</a></dd>
+                            <dd><a href="javascript:;" data-url="http://www.layui.com" data-id="1001"><i class="wdfont wdicon-youqing" data-icon="wdicon-youqing"></i>LayUI</a></dd>
+                            <dd><a href="javascript:;" data-url="http://www.qq.com" data-id="1002"><i class="wdfont wdicon-QQ" data-icon="wdicon-square-QQ"></i>腾讯</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 内容主体区域 -->
+        <div class="layui-body">
+            <!-- 顶部切换卡 -->
+            <div class="layui-tab " lay-filter="main-tab" lay-allowclose="true">
+                <div class="layui-tab-tool open" title="收起">
+                    <i class="wdfont wdicon-xiangzuojiantou"></i>
+                </div>
+                <ul class="layui-tab-title" style="z-index: 999;">
+                    <li lay-id="0" class="layui-this"><i class="wdfont wdicon-shouye"></i>首页</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <iframe id="0" src="desktop.html" class="layui-tab-iframe"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 底部固定区域 -->
+         <div class="layui-footer">
+          Copyright © <a href="http://www.wdphp.cn" target="_blank">WDPHP网站管理系统</a>
+        </div> 
+    </div>
+       <script src="res/layui/layui.js"></script>
+    <script src="res/js/base.js"></script>
+   
+</body>
+</html>
