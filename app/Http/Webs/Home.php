@@ -20,7 +20,7 @@ Route::group(
      */
     Route::get('/Index/show',  ['uses' => 'Home\IndexController@show'])->name('Home.Index.show');
 
-    Route::get('/User/index', ['uses' => 'Home\UserController@index'])->name('Home.User.index');
+    Route::get('/User', ['uses' => 'Home\UserController@index'])->name('Home.User.index');
 
     //隐式控制器
     Route::controller('User','Home\UserController', [

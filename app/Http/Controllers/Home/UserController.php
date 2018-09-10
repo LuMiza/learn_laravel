@@ -3,16 +3,14 @@
 namespace App\Http\Controllers\Home;
 
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Psr\Http\Message\ServerRequestInterface;
-use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends InitController
 {
-    public function index()
+    public function index(Request $request)
     {
+        dd($request->route()->getAction());
         echo  'this is home user index action';
         echo  route('home#Home.User.index');
     }
@@ -44,7 +42,9 @@ class UserController extends InitController
      */
     public function getRes(Request $request, ServerRequestInterface $httpRequest)
     {
+//        echo $request->route()->getActionName();
         echo '<pre>';
+        print_r($request->route()->getAction());
 //        print_r($httpRequest->getHeaders());
 //        print_r($httpRequest->getCookieParams());
 //        $httpRequest->withAttribute('u_test','rumble');
@@ -58,6 +58,11 @@ class UserController extends InitController
      */
     public function getResponse(Request $request)
     {
+        echo '<pre>';
+        echo $request->path();
+        print_r( $request->route()->getAction() );
+        echo $request->route()->getName() , '<br/>';
+        print_r(\Illuminate\Support\Facades\Route::currentRouteAction());
         /*return response('rumble')
             ->header('Content-Type', 'text/html')
             ->header('X-Header-One', 'Header Value')
@@ -77,6 +82,8 @@ class UserController extends InitController
 //        return back();
 //        return redirect()->action('Home\UserController@index');
     }
+
+
 
 
 

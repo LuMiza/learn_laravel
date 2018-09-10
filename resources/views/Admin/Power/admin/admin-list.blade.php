@@ -117,7 +117,7 @@
                     this.disabledData = function(){
                         $(document).on('click','.disabled-data-bt',function(){
                             if( (typeof $(this).attr('data-url') != 'undefined') && (typeof $(this).attr('data-disabled') != 'undefined') ){
-                                $.post( $.trim($(this).attr('data-url')),{disabled:$(this).attr('data-disabled')},function(data,textStatus){
+                                $.post( $.trim($(this).attr('data-url')),{disabled:$(this).attr('data-disabled'),_token:'{{csrf_token()}}'},function(data,textStatus){
                                     if( textStatus == 'success' ){
                                         layer.alert(data.msg, { title:"操作提示",icon: data.code,time:1000});
                                         if( data.code == "1" ){

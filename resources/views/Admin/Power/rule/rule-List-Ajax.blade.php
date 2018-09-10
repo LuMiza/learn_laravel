@@ -7,33 +7,33 @@
         <th>ID</th>
         <th>权限名称</th>
         <th>模块</th>
-        <th>控制器</th>
-        <th>方法</th>
+        <th>路由别名</th>
+        <th>控制器方法</th>
         <th>样式</th>
         <th>父id</th>
         <th>操作</th>
     </tr>
     </thead>
     <tbody id="x-link">
-        {foreach name="rule_list" item="rule_child"}
+        @foreach ($rule_list as $rule_key => $rule_child)
         <tr>
             <td>
                 <input type="checkbox" value="1" name="">
             </td>
-            <td>{$rule_child.p_id}</td>
+            <td>{{$rule_child['p_id']}}</td>
             <td>
-                <gt name="rule_child.level" value="0">
+                @if (count(explode(',',$rule_child['level_paths'])) > 2)
                     <span style="color:green;padding:0px 0px;font-weight: bold;">
-                    &nbsp;&nbsp;&nbsp;{$rule_child.level|str_repeat='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',###}├&nbsp;
+                        {{str_repeat('&nbsp;&nbsp;',count(explode(',',$rule_child['level_paths'])))}}├
                     </span>
-                </gt>
-                {$rule_child.p_name}
+                @endif
+                {!! $rule_child['p_name'] !!}
             </td>
-            <td>{$rule_child.module_name}</td>
-            <td>{$rule_child.controller_name}</td>
-            <td>{$rule_child.action_name}</td>
-            <td>{$rule_child.style_name}</td>
-            <td>{$rule_child.p_pid}</td>
+            <td>{!! $rule_child['module_name'] !!}</td>
+            <td>{!! $rule_child['route_name'] !!}</td>
+            <td>{!! $rule_child['action_name'] !!}</td>
+            <td>{!! $rule_child['style_name'] !!}</td>
+            <td>{{$rule_child['p_pid']}}</td>
             <td class="td-manage">
                 <a class="edit-bt ml-5" title="编辑" href="javascript:void(0);" data-url="{:url('Power/editRule',array('id'=>$rule_child['p_id']),true,true)}"  style="text-decoration:none">
                     <i class="layui-icon">&#xe642;</i>
@@ -43,9 +43,9 @@
                 </a>
             </td>
         </tr>
-        {/foreach}
+        @endforeach
     </tbody>
 </table>
 <script type="text/javascript">
-    var total_page = parseInt('{$page_total}');
+    var total_page = parseInt('{{$page_total}}');
 </script>

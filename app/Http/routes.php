@@ -12,9 +12,9 @@
 */
 
 //引入Home的路由规则
-require __DIR__ . '/Webs/Home.php';
+require __DIR__ . '/Webs/home.php';
 //引入Admin的路由规则
-require __DIR__ . '/Webs/Admin.php';
+require __DIR__ . '/Webs/admin.php';
 
 
 

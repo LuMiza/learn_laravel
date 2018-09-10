@@ -38,10 +38,10 @@
                     @endif
                 </td>
                 <td class="td-manage">
-                    <button class="disabled-data-bt layui-btn layui-btn-primary layui-btn-sm" data-disabled="{$admin_child.a_is_disabled}" data-url="{:url('Admin/Power/disAdmin',array('id'=>$admin_child['a_id']),true,true)}">
+                    <button class="disabled-data-bt layui-btn layui-btn-primary layui-btn-sm" data-disabled="{{$admin_child['a_is_disabled']}}" data-url="{{route('admin::Admin.Power.disAdmin', ['id'=>$admin_child['a_id']])}}">
                         @if ($admin_child['a_is_disabled']==0)禁用@else启用@endif
                     </button>
-                    <button class="edit-data-bt layui-btn layui-btn-primary layui-btn-sm" data-url="{:url('Admin/Power/editAdmin',array('id'=>$admin_child['a_id']),true,true)}" title="编辑">
+                    <button class="edit-data-bt layui-btn layui-btn-primary layui-btn-sm" data-url="{{route('admin::Admin.Power.editAdmin',['id'=>$admin_child['a_id']])}}" title="编辑">
                         <i class="layui-icon">&#xe642;</i>
                     </button>
                 </td>
