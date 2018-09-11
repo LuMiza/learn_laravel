@@ -14,12 +14,19 @@ class Privilege extends Model
 
     public  $timestamps = false;
 
-    public function getList($page,$pageSize)
+    /**
+     * 获取权限列表
+     * @param $page  页码
+     * @param $pageSize  每页展示数据
+     * @return mixed
+     */
+    public function getList($page, $pageSize)
     {
         $result = $this->select(\DB::raw('concat(p_paths,",",p_id) as level_paths'),'privilege.*')
             ->skip(($page-1) * $pageSize)
             ->take($pageSize)
             ->orderBy('level_paths')
+            ->where('p_is_delete', 0)
             ->get()
             ->toArray();
         return $result;
@@ -29,9 +36,15 @@ class Privilege extends Model
      * 添加  或 修改权限
      * @param $post
      * @param bool $isEdit  false:add true:edit
+     * @return array
      */
     public function addOrEditRule($post, $isEdit=false)
     {
+        if ($isEdit) {
+            if (!isset($post['privilege_id']) || !VerifyAction::isId($post['privilege_id'])) {
+                return ['msg' => '非法操作', 'code' => 0];
+            }
+        }
        //权限名称
        if (!isset($post['name']) || empty(trim($post['name']))) {
             return ['msg' => '请填写权限名称', 'code' => 0];
@@ -58,7 +71,13 @@ class Privilege extends Model
         $data['style_name'] = isset($post['style_name'])? trim($post['style_name']): '';
         $data['module_name'] = trim($post['module_name']);
         $data['route_name'] = trim($post['route_name']);
-        $data['action_name'] = trim($post['action_name'])? ('App\Http\Controllers\\' . trim($post['action_name'])): '';
+
+        if (strpos(trim($post['action_name']), 'App\Http\Controllers\\') !==false) {
+            $data['action_name'] = trim($post['action_name']);
+        } else {
+            $data['action_name'] = trim($post['action_name'])? ('App\Http\Controllers\\' . trim($post['action_name'])): '';
+        }
+
         $data['p_paths'] = '0';
         if (trim($post['parent_id'])) {
             $list = $this->find($post['parent_id'])->toArray();
@@ -67,7 +86,12 @@ class Privilege extends Model
             }
             $data['p_paths'] = $list['p_paths'] .','. $list['p_id'];
         }
-        $result = $this->insertGetId($data);
-        return $result ? ['msg' => '添加权限成功', 'code' => 1]: ['msg' => '添加权限失败', 'code' => 0];
+        if (!$isEdit) {
+            $result = $this->insertGetId($data);
+            return $result ? ['msg' => '添加权限成功', 'code' => 1]: ['msg' => '添加权限失败', 'code' => 0];
+        } else {
+            $result = $this->where('p_id', $post['privilege_id'])->update($data);
+            return $result !==false ? ['msg' => '修改权限成功', 'code' => 1]: ['msg' => '修改权限失败', 'code' => 0];
+        }
     }
 }

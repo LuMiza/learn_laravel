@@ -320,6 +320,7 @@ class ComposerStaticInitbe2b987dd0ff543b394efe5aecaa2b52
 
     public static $classMap = array (
         'Admin' => __DIR__ . '/../..' . '/database/migrations/2018_09_09_083042_admin.php',
+        'App\\Common\\Help\\Privilege' => __DIR__ . '/../..' . '/app/Common/Help/Privilege.php',
         'App\\Common\\Help\\VerifyAction' => __DIR__ . '/../..' . '/app/Common/Help/VerifyAction.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',

@@ -6,9 +6,11 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>{:config('admin_title')}</title>
-    <link rel="stylesheet" href="__ALAYUI__/css/layui.css">
-    <link rel="stylesheet" href="__ACSS__/main.css">
+    <title>后台系统</title>
+    <link rel="stylesheet" href="{{asset('/static/admin/layui/css/layui.css')}}">
+    <link rel="stylesheet" href="{{asset('/static/admin/css/main.css')}}">
+    <script src="{{asset('/static/admin/layui/layui.js')}}"></script>
+    <script src="{{asset('/static/admin/js/base.js')}}"></script>
 </head>
 
 <body style="padding:10px">
@@ -111,11 +113,5 @@
         </div>
     </div>
 
-
-
-
-
-       <script src="__ALATUI__/layui.js"></script>
-    <script src="__AJS__/js/base.js"></script>
 </body>
 </html>

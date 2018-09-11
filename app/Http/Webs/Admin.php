@@ -9,8 +9,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin::'], function () {
     /**
      * 所有关于admin的路由全部在此操作
      */
+    Route::get('/','Admin\IndexController@index')->name('Admin.Index.index');
     //后台首页
-    Route::get('/', 'Admin\IndexController@index')->name('Admin.Index.index');
+    Route::controller('index', 'Admin\IndexController', [
+        'getDesktop' => 'Admin.Index.getDesktop',
+    ]);
 
     //由于使用了路由前缀 那么访问如下路由 url应为：http://www.laravel.cn/admin/show
 //    Route::get('/show/{id?}', 'Admin\IndexController@show')->name('Admin.Index.show');
@@ -27,6 +30,21 @@ Route::group(['prefix' => 'admin', 'as' => 'admin::'], function () {
     Route::match(['get', 'post'], '/power/rule/{p?}', 'Admin\PowerController@rule')->name('Admin.Power.rule')->where('p','^[1-9]{1}\d*$');
     //添加权限
     Route::match(['get','post'],'/power/addRule','Admin\PowerController@addRule')->name('Admin.Power.addRule');
+    //修改权限
+    Route::match(['get', 'post'], '/power/editRule/{id?}', 'Admin\PowerController@editRule')->name('Admin.Power.editRule')->where('id','^[1-9]{1}\d*$');
+    //删除权限
+    Route::post('/power/delRule/{id}', 'Admin\PowerController@delRule')->name('Admin.Power.delRule')->where('id','^[1-9]{1}\d*$');
+    //角色列表
+    Route::match(['get', 'post'], 'power/role/{p?}','Admin\PowerController@role')->name('Admin.Power.role')->where('p','^[1-9]{1}\d*$');
+    //添加角色
+    Route::match(['get', 'post'], 'power/addRole','Admin\PowerController@addRole')->name('Admin.Power.addRole');
+    //修改角色
+    Route::match(['get', 'post'], '/power/editRole/{id?}', 'Admin\PowerController@editRole')->name('Admin.Power.editRole')->where('id','^[1-9]{1}\d*$');
+    //删除角色
+    Route::post('/power/delRole/{id}', 'Admin\PowerController@delRole')->name('Admin.Power.delRole')->where('id','^[1-9]{1}\d*$');
+    //分配权限
+    Route::match(['get', 'post'], '/power/allotPriv/{id?}', 'Admin\PowerController@allotPriv')->name('Admin.Power.allotPriv')->where('id','^[1-9]{1}\d*$');
+
 
 
 });

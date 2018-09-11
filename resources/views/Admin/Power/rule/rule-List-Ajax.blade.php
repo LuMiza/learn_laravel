@@ -35,10 +35,10 @@
             <td>{!! $rule_child['style_name'] !!}</td>
             <td>{{$rule_child['p_pid']}}</td>
             <td class="td-manage">
-                <a class="edit-bt ml-5" title="编辑" href="javascript:void(0);" data-url="{:url('Power/editRule',array('id'=>$rule_child['p_id']),true,true)}"  style="text-decoration:none">
+                <a class="edit-bt ml-5" title="编辑" href="javascript:void(0);" data-url="{{route('admin::Admin.Power.editRule', ['id' => $rule_child['p_id']])}}"  style="text-decoration:none">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
-                <a class="delete-data-bt" title="删除" href="javascript:void(0);" data-url="{:url('Power/delRule',array('id'=>$rule_child['p_id']),true,true)}" style="text-decoration:none">
+                <a class="delete-data-bt" title="删除" href="javascript:void(0);" data-url="{{route('admin::Admin.Power.delRule', ['id' => $rule_child['p_id']])}}" style="text-decoration:none">
                     <i class="layui-icon">&#xe640;</i>
                 </a>
             </td>

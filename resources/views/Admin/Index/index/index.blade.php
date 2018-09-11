@@ -6,23 +6,25 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>{:config('admin_title')}</title>
-    <link rel="stylesheet" href="__ALAYUI__/css/layui.css">
-    <link rel="stylesheet" href="__ADMIN__/wdfont/iconfont.css">
-    <link rel="stylesheet" href="__ACSS__/main.css">
-    <link rel="stylesheet" href="__COMM__/css/font-awesome.min.css">
+    <title>后台系统</title>
+    <link rel="stylesheet" href="{{asset('/static/admin/layui/css/layui.css')}}">
+    <link rel="stylesheet" href="{{asset('/static/admin/wdfont/iconfont.css')}}">
+    <link rel="stylesheet" href="{{asset('/static/admin/css/main.css')}}">
+    <link rel="stylesheet" href="{{asset('/static/common/css/font-awesome.min.css')}}">
+    <script src="{{asset('/static/admin/layui/layui.js')}}"></script>
+    <script src="{{asset('/static/admin/js/base.js')}}"></script>
 </head>
 
 <body>
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header">
-            <div class="layui-logo" onclick="window.location.replace('{:url(\'Index/index\',[],true,true)}');" style="cursor: pointer;">{:config('admin_title')}</div>
+            <div class="layui-logo" onclick="window.location.replace('{{route("admin::Admin.Index.index")}}');" style="cursor: pointer;">后台管理</div>
             <!-- 头部区域 -->
             <ul class="layui-nav layui-layout-right" lay-filter="UserNav">
                 <li class="layui-nav-item">
                     <a id="close-all-iframe-bt" href="javascript:void(0);" title="关闭所有页面">
-                        <img src="__AIMG__/avatar.png" class="layui-nav-img">
-                        {:config('admin_title')}
+                        <img src="{{asset('/static/admin/images/avatar.png')}}" class="layui-nav-img">
+                        后台管理
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" data-url="examples/form.html" data-id="22">基本资料</a><dd>
@@ -44,28 +46,20 @@
         <div class="layui-side layui-bg-black">
             <div class="layui-side-scroll">
                 <ul class="layui-nav layui-nav-tree" lay-filter="leftNav">
-
-                    {foreach name="privilege_list" item="priv_child"}
-                        {eq name="priv_child.checked" value="1"}
-                            <li class="layui-nav-item">
-                                <a class="javascript:;" href="javascript:;">
-                                    <i class="fa  {$priv_child.style_name}  fa-lg" aria-hidden="true"></i><cite>{$priv_child.p_name}</cite>
-                                </a>
-                                <dl class="layui-nav-child">
-                                    <?php foreach($priv_child['menu_list'] as $key=>$val){  ?>
-                                    <?php if(isset($val['checked']) && $val['checked']){  ?>
-                                    <dd class="">
-                                        <a href="javascript:void(0);" data-url="<?php echo url($val['module_name'].'/'.$val['controller_name'].'/'.$val['action_name'],array(),true,true);  ?>" data-id="<?php echo $val['p_id']; ?>">
-                                            <cite><?php  echo $val['p_name'];  ?></cite>
-                                        </a>
-                                    </dd>
-                                    <?php }  ?>
-                                    <?php }  ?>
-                                </dl>
-                            </li>
-                        {/eq}
-                    {/foreach}
-
+                    {!! $menu_string !!}
+                        {{--<li class="layui-nav-item">--}}
+                            {{--<a class="javascript:;" href="javascript:void(0);">--}}
+                                {{--<i class="fa    fa-lg" aria-hidden="true"></i>--}}
+                                {{--<cite></cite>--}}
+                            {{--</a>--}}
+                            {{--<dl class="layui-nav-child">--}}
+                                {{--<dd class="">--}}
+                                    {{--<a href="javascript:void(0);" data-url="" data-id="">--}}
+                                        {{--<cite></cite>--}}
+                                    {{--</a>--}}
+                                {{--</dd>--}}
+                            {{--</dl>--}}
+                        {{--</li>--}}
 
 
                     <!--<li class="layui-nav-item ">-->
@@ -92,7 +86,7 @@
                 </ul>
                 <div id="iframe-page-list" class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
-                        <iframe id="0" src="{:url('admin/Index/desktop','',true,true)}" class="layui-tab-iframe"></iframe>
+                        <iframe id="0" src="{{route('admin::Admin.Index.getDesktop')}}" class="layui-tab-iframe"></iframe>
                     </div>
                 </div>
             </div>
@@ -102,9 +96,7 @@
           Copyright © <a href="javascript:void(0);" target="_self">{:config('admin_title')}</a>
         </div> 
     </div>
-   <script src="__ALAYUI__/layui.js"></script>
-    <script src="__AJS__/base.js"></script>
-   <script>
+   <script type="text/javascript">
        layui.use(['layer'], function() {
            var $ = layui.$;//jquery
            layer = layui.layer;//弹出层

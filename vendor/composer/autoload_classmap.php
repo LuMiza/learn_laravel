@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Admin' => $baseDir . '/database/migrations/2018_09_09_083042_admin.php',
+    'App\\Common\\Help\\Privilege' => $baseDir . '/app/Common/Help/Privilege.php',
     'App\\Common\\Help\\VerifyAction' => $baseDir . '/app/Common/Help/VerifyAction.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',

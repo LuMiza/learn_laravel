@@ -5,14 +5,14 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>{:config('admin_title')}</title>
-    <link rel="stylesheet" href="__ALAYUI__/css/layui.css">
-    <link rel="stylesheet" href="__ACSS__/main.css">
-    <link rel="stylesheet" type="text/css" href="__COMM__/css/pagination.css" media="screen">
-    <script src="__ALAYUI__/layui.js"></script>
-    <script src="__AJS__/base.js"></script>
-    <script src="__AJS__/jquery.min.js" charset="utf-8"></script>
-    <script src="__COMM__/js/jquery.pagination.js" charset="utf-8"></script>
+    <title>角色列表</title>
+    <link rel="stylesheet" href="{{asset('/static/admin/layui/css/layui.css')}}">
+    <link rel="stylesheet" href="{{asset('/static/admin/css/main.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('/static/common/css/pagination.css')}}" media="screen">
+    <script src="{{asset('/static/admin/layui/layui.js')}}"></script>
+    <script src="{{asset('/static/admin/js/base.js')}}"></script>
+    <script src="{{asset('/static/admin/js/jquery.min.js')}}" charset="utf-8"></script>
+    <script src="{{asset('/static/common/js/jquery.pagination.js')}}" charset="utf-8"></script>
 </head>
 
 <body>
@@ -54,7 +54,7 @@
 
         function initContentList(url,isInitFlag)
         {
-            var postData = '';
+            var postData = {_token:'{{csrf_token()}}'};
             $.post(url,postData,function(data){
                 layer.closeAll();
                 $('#content-box-table ').html('');
@@ -65,7 +65,7 @@
             });
         }
 
-        initContentList('{:url("Admin/Power/role",array(),true,true)}',true);
+        initContentList('{{route("admin::Admin.Power.role")}}',true);
 
 
         function RoleEvent(){
@@ -80,7 +80,7 @@
                         prevContent: '上页',
                         nextContent: '下页',
                         callback: function (api) {
-                            var url = '{php} echo urldecode(url("Admin/Power/role",array("p"=>"###"),true,true)); {/php}';
+                            var url = '{{route("admin::Admin.Power.role",["p"=>"###"])}}';
                             var last_url = url.replace(/###/gi,api.getCurrent());
                             initContentList(last_url,false);
                         }
@@ -98,7 +98,7 @@
                             shadeClose: true,
                             shade:0.4,
                             title: '添加角色',
-                            content: '{:url("Admin/Power/addRole",array(),true,true)}',
+                            content: '{{route("admin::Admin.Power.addRole")}}',
                             end:function(){
                                 window.location.replace(window.location.href);
                             }
@@ -131,7 +131,7 @@
                 this.deleteData = function(){
                     $(document).on('click','.delete-data-bt',function(){
                         if( (typeof $(this).attr('data-url') != 'undefined')  ){
-                            $.post( $.trim($(this).attr('data-url')),function(data,textStatus){
+                            $.post( $.trim($(this).attr('data-url')), {_token:'{{csrf_token()}}'},function(data,textStatus){
                                 if( textStatus == 'success' ){
                                     layer.alert(data.msg, { title:"操作提示",icon: data.code,time:1000});
                                     if( data.code == "1" ){

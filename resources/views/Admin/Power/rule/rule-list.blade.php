@@ -70,7 +70,7 @@
                         prevContent: '上页',
                         nextContent: '下页',
                         callback: function (api) {
-                            var url = '{php} echo urldecode(url("Power/rule",array("p"=>"###"),true,true)); {/php}';
+                            var url = "{{route('admin::Admin.Power.rule',['p'=>'###'])}}";
                             var last_url = url.replace(/###/gi,api.getCurrent());
                             initContentList(last_url,false);
                         }
@@ -121,7 +121,7 @@
                 this.deleteData = function(){
                     $(document).on('click','.delete-data-bt',function(){
                         if( (typeof $(this).attr('data-url') != 'undefined')  ){
-                            $.post( $.trim($(this).attr('data-url')),function(data,textStatus){
+                            $.post( $.trim($(this).attr('data-url')),{_token:'{{csrf_token()}}'},function(data,textStatus){
                                 if( textStatus == 'success' ){
                                     layer.alert(data.msg, { title:"操作提示",icon: data.code,time:1000});
                                     if( data.code == "1" ){
