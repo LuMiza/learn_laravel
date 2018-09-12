@@ -19,6 +19,8 @@ class PowerController extends Controller
     {
         //对登录是否失效进行处理
         $this->middleware('Admin.Login');
+        //后台权限控制
+        $this->middleware('Admin.AuthPermission');
     }
 
     /**
