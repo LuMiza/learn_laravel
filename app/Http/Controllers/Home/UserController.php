@@ -18,7 +18,7 @@ class UserController extends InitController
     /**
      * 响应对 GET /users/show/1 的请求
      */
-    public function getShow()
+    public function getShow(Request $request)
     {
         echo \Route::currentRouteName();
     }

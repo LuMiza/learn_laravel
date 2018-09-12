@@ -6,6 +6,7 @@ use App\Common\Help\VerifyAction;
 use App\Models\Admin\Admin;
 use App\Models\Admin\Privilege;
 use App\Models\Admin\Role;
+use App\Models\Admin\RolePrivilege;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -14,6 +15,12 @@ use Illuminate\Support\Facades\DB;
 
 class PowerController extends Controller
 {
+    public function __construct()
+    {
+        //对登录是否失效进行处理
+        $this->middleware('Admin.Login');
+    }
+
     /**
      * 管理员列表
      * @param Request $request
@@ -273,16 +280,20 @@ class PowerController extends Controller
      */
     public function allotPriv(Request $request, $id=null)
     {
+        if ($request->isMethod('post') && $request->isXmlHttpRequest()) {
+            $result = (new RolePrivilege())->allotPrivilege($request->input());
+            return response()->json($result);
+            exit();
+        }
+        $priv_list = RolePrivilege::where('rp_role_id', $id)->get()->toArray();
         $menu_list = Privilege::select(\DB::raw('concat(p_paths,",",p_id) as level_paths'),'privilege.*')
             ->where('p_is_delete',0)
             ->orderBy('level_paths', 'asc')
             ->get()
             ->toArray();
-        if ($request->isMethod('post') && $request->isXmlHttpRequest()) {
-            exit();
-        }
         $assign_data = [
-            'list_string' => \App\Common\Help\Privilege::authTree($menu_list),
+            'list_string' => \App\Common\Help\Privilege::authTree($menu_list, $priv_list),
+            'role_id' => $id,
         ];
         return view('Admin/Power/role/allot-privilege', $assign_data);
     }

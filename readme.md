@@ -110,6 +110,25 @@ showdata({"name":"this is go to shopping","img":"http:\/\/www.baidu.com","price"
 
 * 用命令 `composer dump-auto`更新自动加载配置
 
+### 路由补充
+
+* laravel 如何获取全部路由数据 不要php artisan route:list
+```php
+    $routes = \Route::getRoutes();
+    foreach($routes as $route) {
+        echo $route->getPath() ,'<br/>';
+        print_r($route->methods());
+        echo '<pre>';
+        print_r($route->getAction());
+    }
+    exit();
+```
+* 其实找到 php artisan route:list 这个命令的源码就行了。文件位置：`\vendor\laravel\framework\src\Illuminate\Foundation\Console\RouteListCommand.php` 源码里包含了你想要的信息
+
+### 辅助函数调用
+
+* config函数使用 取`config\webs\admin.php` 中的title `config('webs.admin.title')`
+
 
 
 

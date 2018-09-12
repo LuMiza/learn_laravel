@@ -2,13 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>登录页</title>
+    <title>{{config('webs.admin.config.title')}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="__ALAYUI__/css/layui.css">
-    <link rel="stylesheet" href="__ACSS__/main.css">
-    <link rel="stylesheet" href="__COMM__/css/font-awesome.min.css">
-    <script src="__ALAYUI__/layui.js"></script>
-    <script src="__AJS__/base.js"></script>
+    <link rel="stylesheet" href="{{asset('/static/admin/layui/css/layui.css')}}">
+    <link rel="stylesheet" href="{{asset('/static/admin/css/main.css')}}">
+    <link rel="stylesheet" href="{{asset('/static/common/css/font-awesome.min.css')}}">
+    <script src="{{asset('/static/admin/layui/layui.js')}}"></script>
+    <script src="{{asset('/static/admin/js/base.js')}}"></script>
+    <script type="text/javascript">
+        //js判断是否在iframe中
+        if (self != top) {
+            console.log('在iframe中');
+            // parent.location.reload();
+        }
+        //js判断是否在iframe中
+        if (self.frameElement && self.frameElement.tagName == "IFRAME") {
+            console.log('在iframe中 two');
+        }
+    </script>
     <style type="text/css">
         .login-main{
             width:400px;
@@ -34,7 +45,8 @@
 
 <div class="login-main">
     <form id="data-form" class="layui-form" action="" onsubmit="return false;">
-        <div class="login-title">{:config('admin_title')}</div>
+        {{csrf_field()}}
+        <div class="login-title">{{config('webs.admin.config.title')}}</div>
         <div class="layui-form-item">
             <label class="layui-form-label" style="display: inline-block;padding: 9px 5px;width: auto;">
                 <i class="fa fa-user" aria-hidden="true" style="color:#C6C6C6;"></i>
@@ -66,7 +78,7 @@
         layer = layui.layer;//弹出层
         function LoginEvent(){
             this.request = function(){
-                $.post('{:url("Login/index",array(),true,true)}',$('#data-form').serialize(),function(data,textStatus){
+                $.post('{{route("admin::Admin.Login.postIndex")}}',$('#data-form').serialize(),function(data,textStatus){
                     if( textStatus == 'success' ){
                         layer.alert(data.msg, { title:"操作提示",icon: data.code,time:1000});
                         if( data.code == "1" ){

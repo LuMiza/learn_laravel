@@ -44,7 +44,8 @@
 <body>
 <div style="padding:5px 10px;">
     <form id="data-form"  onsubmit="return false;">
-        <input type="hidden" name="role_id" value="{$role_id}">
+        {{csrf_field()}}
+        <input type="hidden" name="role_id" value="{{$role_id}}">
         <div class="layui-form-item layui-form-text">
 
             {!! $list_string !!}
@@ -128,7 +129,7 @@
             },
             this.saveData = function(){
                 $('button[type="button"]').click(function(){
-                    $.post('{:url("Admin/Power/allotPriv",array(),true,true)}',$('#data-form').serialize(),function(data,textStatus){
+                    $.post('{{route("admin::Admin.Power.allotPriv")}}',$('#data-form').serialize(),function(data,textStatus){
                         if( textStatus == 'success' ){
                             layer.alert(data.msg, { title:"操作提示",icon: data.code,time:1000});
                             if( data.code == "1" ){

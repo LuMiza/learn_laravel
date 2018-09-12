@@ -1,19 +1,5 @@
 <?php
-/**
- * 设置后台的路由规则
- * 本后台系统的权限规则依靠 路由别名  操作方法
- */
 
-Route::group(['prefix' => 'admin', 'as' => 'admin::'], function () {
-
-    /**
-     * 所有关于admin的路由全部在此操作
-     */
-    Route::get('/','Admin\IndexController@index')->name('Admin.Index.index');
-    //后台首页
-    Route::controller('index', 'Admin\IndexController', [
-        'getDesktop' => 'Admin.Index.getDesktop',
-    ]);
 
     //由于使用了路由前缀 那么访问如下路由 url应为：http://www.laravel.cn/admin/show
 //    Route::get('/show/{id?}', 'Admin\IndexController@show')->name('Admin.Index.show');
@@ -45,6 +31,3 @@ Route::group(['prefix' => 'admin', 'as' => 'admin::'], function () {
     //分配权限
     Route::match(['get', 'post'], '/power/allotPriv/{id?}', 'Admin\PowerController@allotPriv')->name('Admin.Power.allotPriv')->where('id','^[1-9]{1}\d*$');
 
-
-
-});

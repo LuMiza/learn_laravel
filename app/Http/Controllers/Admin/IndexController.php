@@ -9,6 +9,11 @@ use App\Http\Controllers\Controller;
 
 class IndexController extends Controller
 {
+    public function __construct()
+    {
+        //对登录是否失效进行处理
+        $this->middleware('Admin.Login');
+    }
     /**
      * 后台首页
      * @param Request $request

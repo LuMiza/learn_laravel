@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2018-09-10 18:02:45
+Date: 2018-09-12 17:28:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -50,7 +50,7 @@ CREATE TABLE `admin_role` (
 -- Records of admin_role
 -- ----------------------------
 INSERT INTO `admin_role` VALUES ('3', '1');
-INSERT INTO `admin_role` VALUES ('4', '4');
+INSERT INTO `admin_role` VALUES ('4', '2');
 INSERT INTO `admin_role` VALUES ('5', '4');
 
 -- ----------------------------
@@ -70,7 +70,7 @@ CREATE TABLE `privilege` (
   `p_is_delete` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除 1删除  0不删除',
   PRIMARY KEY (`p_id`),
   KEY `p_pid` (`p_pid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='权限表';
 
 -- ----------------------------
 -- Records of privilege
@@ -81,6 +81,11 @@ INSERT INTO `privilege` VALUES ('3', '添加管理员', 'admin', 'admin::Admin.P
 INSERT INTO `privilege` VALUES ('4', '修改管理员', 'admin', 'admin::Admin.Power.editAdmin', 'App\\Http\\Controllers\\Admin\\PowerController@editAdmin', '', '2', '0,1,2', '2018-09-10 16:53:08', '0');
 INSERT INTO `privilege` VALUES ('5', '权限列表', 'admin', 'admin::Admin.Power.rule', 'App\\Http\\Controllers\\Admin\\PowerController@rule', '', '1', '0,1', '2018-09-10 17:53:48', '0');
 INSERT INTO `privilege` VALUES ('6', '添加权限', 'admin', 'admin::Admin.Power.addRule', 'App\\Http\\Controllers\\Admin\\PowerController@addRule', '', '5', '0,1,5', '2018-09-10 17:55:34', '0');
+INSERT INTO `privilege` VALUES ('7', '修改', 'admin', 'admin::Admin.Power.editRule', 'App\\Http\\Controllers\\Admin\\PowerController@editRule', '', '5', '0,1,5', '2018-09-11 10:38:16', '0');
+INSERT INTO `privilege` VALUES ('8', '角色列表', 'admin', 'admin::Admin.Power.role', 'App\\Http\\Controllers\\Admin\\PowerController@role', '', '1', '0,1', '2018-09-11 15:04:19', '0');
+INSERT INTO `privilege` VALUES ('9', '添加角色', 'admin', 'admin::Admin.Power.addRole', 'App\\Http\\Controllers\\Admin\\PowerController@addRole', '', '8', '0,1,8', '2018-09-11 15:05:15', '0');
+INSERT INTO `privilege` VALUES ('10', '修改角色', 'admin', 'admin::Admin.Power.editRole', 'App\\Http\\Controllers\\Admin\\PowerController@editRole', '', '8', '0,1,8', '2018-09-11 15:06:19', '0');
+INSERT INTO `privilege` VALUES ('11', '删除角色', 'admin', 'admin::Admin.Power.delRole', 'App\\Http\\Controllers\\Admin\\PowerController@delRole', '', '8', '0,1,8', '2018-09-11 15:08:10', '0');
 
 -- ----------------------------
 -- Table structure for `role`
@@ -99,14 +104,14 @@ CREATE TABLE `role` (
 -- Records of role
 -- ----------------------------
 INSERT INTO `role` VALUES ('1', '超级管理员', '', '2018-03-16 13:57:32', '0');
-INSERT INTO `role` VALUES ('2', '业务经理', '', '2018-03-16 13:57:51', '0');
+INSERT INTO `role` VALUES ('2', '普通管理员', '', '2018-03-16 13:57:51', '0');
 INSERT INTO `role` VALUES ('3', '业务员', '', '2018-03-16 13:57:57', '0');
 INSERT INTO `role` VALUES ('4', '业务助理', '', '2018-03-16 13:58:05', '0');
 INSERT INTO `role` VALUES ('5', '行政助理', '这个是我的权限系统', '2018-03-16 13:58:16', '0');
-INSERT INTO `role` VALUES ('6', 'ddds', 'dsdfdf', '2018-07-06 10:35:23', '1');
+INSERT INTO `role` VALUES ('6', 'ddds', 'dsdfdf', '2018-07-06 10:35:23', '0');
 INSERT INTO `role` VALUES ('7', '呀呢', 'dsdfdf', '2018-07-06 10:36:35', '0');
 INSERT INTO `role` VALUES ('8', '哦呢', 'dsdfdf', '2018-07-06 10:36:56', '0');
-INSERT INTO `role` VALUES ('9', '昨天', '昨天', '2018-07-06 10:38:04', '0');
+INSERT INTO `role` VALUES ('9', '昨天', '昨天888', '2018-07-06 10:38:04', '0');
 
 -- ----------------------------
 -- Table structure for `role_privilege`
@@ -115,6 +120,7 @@ DROP TABLE IF EXISTS `role_privilege`;
 CREATE TABLE `role_privilege` (
   `rp_role_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'role角色表的主键id',
   `rp_pid` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'privilege表的主键id',
+  PRIMARY KEY (`rp_role_id`,`rp_pid`),
   KEY `rp_role_id` (`rp_role_id`),
   KEY `rp_pid` (`rp_pid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限映射表';
@@ -122,17 +128,19 @@ CREATE TABLE `role_privilege` (
 -- ----------------------------
 -- Records of role_privilege
 -- ----------------------------
-INSERT INTO `role_privilege` VALUES ('1', '14');
-INSERT INTO `role_privilege` VALUES ('1', '9');
-INSERT INTO `role_privilege` VALUES ('1', '12');
-INSERT INTO `role_privilege` VALUES ('1', '11');
-INSERT INTO `role_privilege` VALUES ('1', '10');
-INSERT INTO `role_privilege` VALUES ('1', '5');
-INSERT INTO `role_privilege` VALUES ('1', '13');
-INSERT INTO `role_privilege` VALUES ('1', '8');
-INSERT INTO `role_privilege` VALUES ('1', '7');
-INSERT INTO `role_privilege` VALUES ('1', '6');
 INSERT INTO `role_privilege` VALUES ('1', '1');
-INSERT INTO `role_privilege` VALUES ('1', '4');
-INSERT INTO `role_privilege` VALUES ('1', '3');
 INSERT INTO `role_privilege` VALUES ('1', '2');
+INSERT INTO `role_privilege` VALUES ('1', '3');
+INSERT INTO `role_privilege` VALUES ('1', '4');
+INSERT INTO `role_privilege` VALUES ('1', '5');
+INSERT INTO `role_privilege` VALUES ('1', '6');
+INSERT INTO `role_privilege` VALUES ('1', '7');
+INSERT INTO `role_privilege` VALUES ('1', '8');
+INSERT INTO `role_privilege` VALUES ('1', '9');
+INSERT INTO `role_privilege` VALUES ('1', '10');
+INSERT INTO `role_privilege` VALUES ('1', '11');
+INSERT INTO `role_privilege` VALUES ('8', '1');
+INSERT INTO `role_privilege` VALUES ('8', '8');
+INSERT INTO `role_privilege` VALUES ('8', '9');
+INSERT INTO `role_privilege` VALUES ('8', '10');
+INSERT INTO `role_privilege` VALUES ('8', '11');

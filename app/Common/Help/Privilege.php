@@ -64,7 +64,13 @@ EOF;
         return $string;
     }
 
-    public static function authTree($data)
+    /**
+     * 权限分配处理
+     * @param $data 所有的权限
+     * @param $uAccess 用户所属权限
+     * @return string
+     */
+    public static function authTree($data, $uAccess=[])
     {
         /*
         <div class="menu-content-box">
@@ -83,12 +89,29 @@ EOF;
                     </div>
         */
         $last = [];
+        $user_privs = [];
+        //用户权限数据处理
+        if (is_array($uAccess) && $uAccess) {
+            foreach ($uAccess as $u_key => $u_val) {
+                array_push($user_privs, $u_val['rp_pid']);
+            }
+        }
+        //整体权限处理
         foreach ($data as $key_data => &$data_val) {
+            if (in_array($data_val['p_id'], $user_privs)) {
+                $data_val['is_checked'] = 1;
+            } else {
+                $data_val['is_checked'] = 0;
+            }
             $data_val['level'] = count(explode(',', $data_val['level_paths']));
             //二级
             if ($data_val['level']==2 && !isset($last[$data_val['level_paths']])) {
                 $last[$data_val['level_paths']] = [];
-                $last[$data_val['level_paths']]['top'] = '<div class="menu-content-box"><h4><label>'.$data_val['p_name'].'&nbsp;<input name="priv_ids[]" type="checkbox" value="'.$data_val['p_id'].'"></label></h4>';
+                $checked_str = '';
+                if ($data_val['is_checked']) {
+                    $checked_str = '  checked="checked"  ';
+                }
+                $last[$data_val['level_paths']]['top'] = '<div class="menu-content-box"><h4><label>'.$data_val['p_name'].'&nbsp;<input name="priv_ids[]" type="checkbox" '.$checked_str.' value="'.$data_val['p_id'].'"></label></h4>';
                 $last[$data_val['level_paths']]['footer'] = '</div>';
                 $last[$data_val['level_paths']]['box'] = [];
             }
@@ -99,14 +122,22 @@ EOF;
                     if (!isset($last[$data_val['p_paths']]['box'][$data_val['level_paths']])){
                         $last[$data_val['p_paths']]['box'][$data_val['level_paths']] = [];
                     }
+                    $checked_str = '';
+                    if ($data_val['is_checked']) {
+                        $checked_str = '  checked="checked"  ';
+                    }
                     $last[$data_val['p_paths']]['box'][$data_val['level_paths']]['list'] = '';
-                    $last[$data_val['p_paths']]['box'][$data_val['level_paths']]['header'] = '<div class="priv-child-box"><div class="priv-menu"><label>'.$data_val['p_name'].'&nbsp;<input name="priv_ids[]" type="checkbox" value="'.$data_val['p_id'].'"></label></div><div   class="priv-list">';
+                    $last[$data_val['p_paths']]['box'][$data_val['level_paths']]['header'] = '<div class="priv-child-box"><div class="priv-menu"><label>'.$data_val['p_name'].'&nbsp;<input name="priv_ids[]" type="checkbox" '.$checked_str.' value="'.$data_val['p_id'].'"></label></div><div   class="priv-list">';
                 }
 
                 if ($data_val['level']>3) {
                     preg_match('/^(\d{1},\d{1}),\d{1}/', $data_val['p_paths'], $temp);
                     if (isset($temp[0],$temp[1])){
-                        $last[$temp[1]]['box'][$temp[0]]['list'] .= '<label class="child-priv-label">'.$data_val['p_name'].'<input name="priv_ids[]" type="checkbox" value="'.$data_val['p_id'].'" checked="checked"></label>';
+                        $checked_str = '';
+                        if ($data_val['is_checked']) {
+                            $checked_str = '  checked="checked"  ';
+                        }
+                        $last[$temp[1]]['box'][$temp[0]]['list'] .= '<label class="child-priv-label">'.$data_val['p_name'].'<input name="priv_ids[]" type="checkbox" '.$checked_str.' value="'.$data_val['p_id'].'"></label>';
                     }
                 }
 

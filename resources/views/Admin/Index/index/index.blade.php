@@ -6,7 +6,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>后台系统</title>
+    <title>{{config('webs.admin.config.title')}}</title>
     <link rel="stylesheet" href="{{asset('/static/admin/layui/css/layui.css')}}">
     <link rel="stylesheet" href="{{asset('/static/admin/wdfont/iconfont.css')}}">
     <link rel="stylesheet" href="{{asset('/static/admin/css/main.css')}}">
@@ -24,7 +24,7 @@
                 <li class="layui-nav-item">
                     <a id="close-all-iframe-bt" href="javascript:void(0);" title="关闭所有页面">
                         <img src="{{asset('/static/admin/images/avatar.png')}}" class="layui-nav-img">
-                        后台管理
+                        {{config('webs.admin.config.title')}}
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" data-url="examples/form.html" data-id="22">基本资料</a><dd>
@@ -38,7 +38,7 @@
                         <dd><a href="javascript:;" data-skin="1">蓝白</a></dd>
                     </dl>
             	</li>
-                <li class="layui-nav-item"><a href="{:url('Login/logout','',true,true)}">注销</a></li>
+                <li class="layui-nav-item"><a href="{{route('admin::Admin.Login.getLogout')}}">注销</a></li>
             </ul>
         </div>
 
