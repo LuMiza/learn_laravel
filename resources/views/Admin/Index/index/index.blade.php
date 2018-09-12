@@ -93,7 +93,7 @@
         </div>
         <!-- 底部固定区域 -->
          <div class="layui-footer">
-          Copyright © <a href="javascript:void(0);" target="_self">{:config('admin_title')}</a>
+          Copyright © <a href="javascript:void(0);" target="_self">{{config('webs.admin.config.title')}}</a>
         </div> 
     </div>
    <script type="text/javascript">

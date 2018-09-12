@@ -16,7 +16,7 @@
 <body style="padding:10px">
     <div class="layui-col-xs12">
         <blockquote class="layui-elem-quote">
-           今天是2017-11-30，欢迎回来！
+           今天是{{date('Y-m-d H:i:s', time())}}，欢迎回来！
         </blockquote>
     </div>
     <table class="layui-table">
@@ -40,7 +40,7 @@
             </tr>
             <tr>
                 <td>服务器当前时间</td>
-                <td>2017-10-16 17:06:23</td>
+                <td>{{date('Y-m-d H:i:s', time())}}</td>
                 <td>服务器解译引擎</td>
                 <td>nginx/1.12.0</td>
             </tr>

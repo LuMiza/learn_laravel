@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware\Admin;
 
+use App\Common\Help\Errors;
 use Closure;
 
 class AuthPermissionMiddleware
@@ -34,6 +35,8 @@ class AuthPermissionMiddleware
             ->where('action_name', $request->route()->getActionName())
             ->count();
         if (!$result) {
+            Errors::throwMsg('');
+            exit();
         }
     }
 }
