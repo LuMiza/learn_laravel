@@ -129,6 +129,36 @@ showdata({"name":"this is go to shopping","img":"http:\/\/www.baidu.com","price"
 
 * config函数使用 取`config\webs\admin.php` 中的title `config('webs.admin.title')`
 
+### 数据库
+
+* sql语句记录
+```php
+    \Event::listen('illuminate.query', function($query){
+        var_dump($query);
+    });
+```
+
+* 由于laravel的查询构造器和thinkphp不一样，在构建 可选查询条件^[【查询条件可能有，也可能没用】]的时候不能够将查询条件塞入一个数组，那么laravel的可选查询条件构造如何操作如下：
+```php
+    //一下代码在在model为Privilege.php文件中
+    
+    //第一种操作【不行，将会取出所有数据】
+    $this->where('p_name', 'like', '%管理员%');
+    $this->where('p_name', 'like', '%管理员%');
+    dd($this->get()->toArray());
+    //以上查询sql为：select * from `privilege`
+    
+    
+    //第二种操作 【将会依据条件取出符合的数据】
+    $obj = \DB::table($this->table);//或  \DB::table('privilege')
+    $obj->where('p_name', 'like', '%管理员%');
+    $obj->where('p_id', 1);
+    $result = $obj->get();
+    dd($result);
+    //以上查询sql为：select * from `privilege` where `p_name` like ? and `p_id` = ?
+```
+
+
 
 
 
