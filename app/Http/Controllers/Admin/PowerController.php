@@ -120,13 +120,14 @@ class PowerController extends Controller
     public function rule(Request $request, $p=null)
     {
         if ($request->isMethod('post') && $request->isXmlHttpRequest()) {
+//            print_r($request->input());
             $page = ($p && preg_match('/^[1-9]{1}\d*$/',$p))? $p: 1;
             $pageSize = 10;
             $ruleModel = new Privilege();
-            $list = $ruleModel->getList($page,$pageSize);
+            $list = $ruleModel->getList($page, $pageSize, $ruleModel->searchWhere($request->input()));
 
             $assign_data = [
-                'page_total' => ceil($ruleModel->count()/$pageSize),
+                'page_total' => ceil($ruleModel->getTotal($ruleModel->searchWhere($request->input()))/$pageSize),
                 'rule_list' => $list,
             ];
             return view('Admin.Power.rule.rule-List-Ajax', $assign_data);

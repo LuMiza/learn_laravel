@@ -138,9 +138,13 @@ showdata({"name":"this is go to shopping","img":"http:\/\/www.baidu.com","price"
     });
 ```
 
-* 由于laravel的查询构造器和thinkphp不一样，在构建 可选查询条件^[【查询条件可能有，也可能没用】]的时候不能够将查询条件塞入一个数组，那么laravel的可选查询条件构造如何操作如下：
+* 由于laravel的查询构造器和thinkphp不一样，在构建 `可选查询条件` `【查询条件可能有，也可能没用】`的时候不能够将查询条件塞入一个数组，那么laravel的可选查询条件构造如何操作如下：
 ```php
-    //一下代码在在model为Privilege.php文件中
+    //以下代码在在model为Privilege.php文件中
+    protected $table = 'privilege';//表名
+    protected $primaryKey = 'p_id';//主键
+    public  $timestamps = false;   
+    
     
     //第一种操作【不行，将会取出所有数据】
     $this->where('p_name', 'like', '%管理员%');
@@ -156,6 +160,14 @@ showdata({"name":"this is go to shopping","img":"http:\/\/www.baidu.com","price"
     $result = $obj->get();
     dd($result);
     //以上查询sql为：select * from `privilege` where `p_name` like ? and `p_id` = ?
+    
+    //那么可选查询时候就可以这么操作了,对第二种代码进行改造
+    if (isset($_POST['p_name'])) {
+        $obj->where('p_name', 'like', '%'.$_POST['p_name'].'%');
+    }
+    if (isset($_POST['id'])) {
+        $obj->where('p_id', $_POST['id']);
+    }
 ```
 
 

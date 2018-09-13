@@ -15,20 +15,48 @@ class Privilege extends Model
     public  $timestamps = false;
 
     /**
+     * 处理查询条件
+     * @param $post
+     */
+    public function searchWhere($post)
+    {
+        $_this = \DB::table($this->table);
+        $this->search_flag = true;
+        if (isset($post['is_delete']) && in_array($post['is_delete'], [0,1])) {
+            $_this->where('p_is_delete', $post['is_delete']);
+        } else {
+            $_this->where('p_is_delete', 0);
+        }
+        if (isset($post['parent_id']) && VerifyAction::isId($post['parent_id'])) {
+            $_this->where('p_pid', $post['parent_id']);
+        }
+        if (isset($post['name']) && !empty(trim($post['name']))) {
+            $_this->where('p_name', 'like', '%'.trim($post['name']).'%');
+        }
+        return $_this;
+    }
+
+    /**
+     * 统计符合的数据
+     * @return int
+     */
+    public function getTotal($obj)
+    {
+        return $obj->count();
+    }
+    /**
      * 获取权限列表
      * @param $page  页码
      * @param $pageSize  每页展示数据
      * @return mixed
      */
-    public function getList($page, $pageSize)
+    public function getList($page, $pageSize, $obj)
     {
-        $result = $this->select(\DB::raw('concat(p_paths,",",p_id) as level_paths'),'privilege.*')
+        $result = $obj->select(\DB::raw('concat(p_paths,",",p_id) as level_paths'),'privilege.*')
             ->skip(($page-1) * $pageSize)
             ->take($pageSize)
-            ->orderBy('level_paths')
-            ->where('p_is_delete', 0)
-            ->get()
-            ->toArray();
+            ->orderBy('level_paths', 'asc')
+            ->get();
         return $result;
     }
 

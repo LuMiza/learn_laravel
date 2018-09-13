@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 use App\Models\Admin;
+use App\Models\Home\Privilege;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -19,9 +20,21 @@ class DbDemoController extends Controller
     public function getList()
     {
 
-        $admin = new Admin();
 
-        dd($admin->all()->toArray());
+        $admin = new Privilege();
+        $admin->getData();
+
+        exit;
+        $admin = \DB::table('privilege');
+        $admin->where('p_name', 'like', '%管理员%');
+        $admin->orWhere('p_id', 1);
+
+        dd($admin->get());
+        exit;
+        $admin = new Admin\Admin();
+        $admin->where('a_id', 5);
+
+        dd($admin->get()->toArray());
         exit();
 //        return 'this is db list';
 //        $result = DB::select('select * from admin;');

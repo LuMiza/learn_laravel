@@ -131,7 +131,7 @@ EOF;
                 }
 
                 if ($data_val['level']>3) {
-                    preg_match('/^(\d{1},\d{1}),\d{1}/', $data_val['p_paths'], $temp);
+                    preg_match('/^(\d+,\d+),\d+/', $data_val['p_paths'], $temp);
                     if (isset($temp[0],$temp[1])){
                         $checked_str = '';
                         if ($data_val['is_checked']) {

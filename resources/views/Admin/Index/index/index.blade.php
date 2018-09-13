@@ -18,7 +18,9 @@
 <body>
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header">
-            <div class="layui-logo" onclick="window.location.replace('{{route("admin::Admin.Index.index")}}');" style="cursor: pointer;">后台管理</div>
+            <div class="layui-logo" onclick="window.location.replace('{{route("admin::Admin.Index.index")}}');" style="cursor: pointer;">
+                {!! config('webs.admin.config.title') !!}
+            </div>
             <!-- 头部区域 -->
             <ul class="layui-nav layui-layout-right" lay-filter="UserNav">
                 <li class="layui-nav-item">

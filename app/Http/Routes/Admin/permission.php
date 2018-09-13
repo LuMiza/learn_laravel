@@ -13,7 +13,7 @@
     //禁用管理员
     Route::post('power/disAdmin/{id}', 'Admin\PowerController@disAdmin')->name('Admin.Power.disAdmin')->where('id','^[1-9]{1}\d*$');
     //权限列表
-    Route::match(['get', 'post'], '/power/rule/{p?}', 'Admin\PowerController@rule')->name('Admin.Power.rule')->where('p','^[1-9]{1}\d*$');
+    Route::match([ 'post', 'get'], '/power/rule/{p?}', 'Admin\PowerController@rule')->name('Admin.Power.rule')->where('p','^[1-9]{1}\d*$');
     //添加权限
     Route::match(['get','post'],'/power/addRule','Admin\PowerController@addRule')->name('Admin.Power.addRule');
     //修改权限
