@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 
 class DbController extends Controller
 {
@@ -20,6 +21,8 @@ class DbController extends Controller
     public function getDemo()
     {
 //        echo $url = url('foo');
+//        echo '<br/>this is laravel demo<br/>';
+        echo $url = action('Home\DbController@getList');
     }
 
     public function getList()

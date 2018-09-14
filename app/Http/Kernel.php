@@ -18,8 +18,8 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \App\Http\Middleware\VerifyCsrfToken::class,
-//        \App\Http\Middleware\BeforeMiddleware::class,
-//        \App\Http\Middleware\AfterMiddleware::class,
+//        \App\Http\Middleware\BeforeMiddleware::class,//前置中间件
+//        \App\Http\Middleware\AfterMiddleware::class,//后置中间件
     ];
 
     /**

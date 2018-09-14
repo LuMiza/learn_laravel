@@ -34,6 +34,12 @@ Route::group(
 
     Route::controller('/db','Home\DbController');
 
+    Route::resource('photos','Home\PhotosController',[
+        'names' => [
+            'create' => 'Photos.create'
+        ]
+    ]);
+
 
 });
 

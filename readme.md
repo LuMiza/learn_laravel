@@ -12,6 +12,24 @@
   * 多个中间件的使用  `'middleware' => ['home.init', 'home.user'],`
   * laravel5.1中没有中间组的概念
   * [个人总结] 关于路由中间件的key命名  比如`InitMiddleware`是在`Middleware\Home\InitMiddleware`;这一这么命名：`Home.Init`  即`目录名.目录名...中间件名`这样便于理解与防止重名
+  * 前置中间件 与 后置中间件
+```php
+    //前置中间件代码
+    public function handle($request, Closure $next)
+    {
+        echo 'before middleware <br/>';
+        return $next($request);
+    }
+    //后置中间件代码
+    public function handle($request, Closure $next)
+    {
+        $response = $next($request);
+        // 运行动作
+        echo 'after middleware <br/>';
+        return $response;
+    }
+```
+  
   
 ### 请求
    * 【PSR-7 请求】在控制器或路由就可以获取http的请求信息  即$_SERVER $_COOKIE  $_SESSION  $_GET $_POST  变量的信息 ,等http请求的全部信息
