@@ -8,7 +8,6 @@
 Route::group(
     [
         'as' => 'home#',
-        'prefix' => '',
 //        'middleware' => ['home.init'],
     ],
     function(){
@@ -31,9 +30,9 @@ Route::group(
         var_dump($request->getHeaders());
     });*/
 
-    Route::get('/db/index','Home\DbDemoController@index')->name('Home.DbDemo.index');
+    Route::get('/db','Home\DbController@index')->name('Home.Db.index');
 
-    Route::controller('/db','Home\DbDemoController');
+    Route::controller('/db','Home\DbController');
 
 
 });

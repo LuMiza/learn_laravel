@@ -10,17 +10,24 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
-class DbDemoController extends Controller
+class DbController extends Controller
 {
     public function index()
     {
         return 'this is db demo';
     }
 
+    public function getDemo()
+    {
+//        echo $url = url('foo');
+    }
+
     public function getList()
     {
 
-
+        $environment = app()->environment();
+        dd($environment);
+        exit;
         $admin = new Privilege();
         $admin->getData();
 

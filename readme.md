@@ -90,7 +90,7 @@ showdata({"name":"this is go to shopping","img":"http:\/\/www.baidu.com","price"
 
 ### php对象注入
 
-* 用到的知识点为`ReflectionMethod`和`ReflectionClass`，代码示例在public目录下的注入，其中`zhuru.php`是简单的示例，`index.php`为将其封装后并且采用命名空间的方式的示例代码\
+* 用到的知识点为`ReflectionMethod`和`ReflectionClass`，代码示例在public目录下的注入，其中`zhuru`是简单的示例，`index.php`为将其封装后并且采用命名空间的方式的示例代码\
 
 ### 设置自定义函数和自定义类文件
 ```json
@@ -124,7 +124,16 @@ showdata({"name":"this is go to shopping","img":"http:\/\/www.baidu.com","price"
     exit();
 ```
 * 其实找到 php artisan route:list 这个命令的源码就行了。文件位置：`\vendor\laravel\framework\src\Illuminate\Foundation\Console\RouteListCommand.php` 源码里包含了你想要的信息
+### trait说明
 
+```php
+//在laravel的Controller.php文件中出现这样的代码，在class内部use类，这是一种代码复用，php 语法为trait
+abstract class Controller extends BaseController
+{
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+}
+```
+* 自 PHP 5.4.0 起，PHP 实现了一种代码复用的方法，称为 [trait](http://www.php.net/manual/zh/language.oop5.traits.php)
 ### 辅助函数调用
 
 * config函数使用 取`config\webs\admin.php` 中的title `config('webs.admin.title')`
@@ -169,6 +178,41 @@ showdata({"name":"this is go to shopping","img":"http:\/\/www.baidu.com","price"
         $obj->where('p_id', $_POST['id']);
     }
 ```
+
+###  配置二级域名
+* 第一步：在config目录下建立`routes.php`文件，内容如下
+```php
+    return [
+        'admin_host' => 'admin',//后台
+        'www_host' => 'www',//前台
+    ];
+```
+* 第二步：在`app\Http`下建立`Routes`文件夹，然后里面建立各个模块文件夹，比如`Admin(后台)` `Home（前台）` ，然后在Admin或Home下建立`routes.php`文件
+* 第三步：对文件`RouteServiceProvider.php`中的代码进行改写,代码如下
+```php
+    public function map(Router $router)
+    {
+        $hostPrefix = substr($_SERVER['HTTP_HOST'],0, stripos($_SERVER['HTTP_HOST'], '.'));
+        if (config('routes.'.$hostPrefix.'_host')) {
+            $func = 'map'.ucwords($hostPrefix);
+            $this->$func($router);
+        } else {
+            abort(404);
+        }
+    }
+
+    /**
+     * 后台路由规则定义
+     * @param  $router
+     */
+    protected function mapAdmin($router)
+    {
+        $router->group(['namespace' => $this->namespace], function(){
+            require app_path('Http/Routes/Admin/routes.php');
+        });
+    }
+```
+* 第四步：服务器配置二级域名 比如：`admin.laravel.cn(后台)` `www.laravel.cn(前台)`
 
 
 

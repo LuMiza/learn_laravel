@@ -11,10 +11,19 @@
 |
 */
 
+
+/**
+ * 该路由文件不使用，已经对【RouteServiceProvider.php】文件中的代码进行改写，配置二级域名
+ *
+ * 关于路由配置已经改写
+ */
+
 //引入Home的路由规则
-require __DIR__ . '/Routes/Home/routes.php';
+//require __DIR__ . '/Routes/Home/routes.php';
 //引入Admin的路由规则
-require __DIR__ . '/Routes/Admin/routes.php';
+//require __DIR__ . '/Routes/Admin/routes.php';
+
+
 
 
 

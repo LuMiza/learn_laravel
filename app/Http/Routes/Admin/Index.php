@@ -1,7 +1,7 @@
 <?php
 
-Route::get('/','Admin\IndexController@index')->name('Admin.Index.index');
 //后台首页
+Route::get('/','Admin\IndexController@index')->name('Admin.Index.index');
 Route::controller('index', 'Admin\IndexController', [
     'getDesktop' => 'Admin.Index.getDesktop',
 ]);

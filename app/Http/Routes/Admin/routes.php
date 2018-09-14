@@ -6,7 +6,8 @@
  *
  * 所有关于admin的路由全部在此操作
  */
-Route::group(['prefix' => 'admin', 'as' => 'admin::'], function () {
+//Route::group(['prefix' => 'admin', 'as' => 'admin::'], function () {
+Route::group([ 'as' => 'admin::'], function () {
 
     //权限管理路由
     require  __DIR__.'/Index.php';

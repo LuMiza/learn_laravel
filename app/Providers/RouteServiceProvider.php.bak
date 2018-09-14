@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -38,35 +37,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map(Router $router)
     {
-        $hostPrefix = substr($_SERVER['HTTP_HOST'],0, stripos($_SERVER['HTTP_HOST'], '.'));
-        if (config('routes.'.$hostPrefix.'_host')) {
-            $func = 'map'.ucwords($hostPrefix);
-            $this->$func($router);
-        } else {
-            abort(404);
-        }
-    }
-
-    /**
-     * 后台路由规则定义
-     * @param  $router
-     */
-    protected function mapAdmin($router)
-    {
-        $router->group(['namespace' => $this->namespace], function(){
-            require app_path('Http/Routes/Admin/routes.php');
+        $router->group(['namespace' => $this->namespace], function ($router) {
+            require app_path('Http/routes.php');
         });
     }
-
-    /**
-     * 前台路由规则定义
-     * @param  $router
-     */
-    protected function mapWww($router)
-    {
-        $router->group(['namespace' => $this->namespace], function(){
-            require app_path('Http/Routes/Home/routes.php');
-        });
-    }
-
 }
