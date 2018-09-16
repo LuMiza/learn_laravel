@@ -112,7 +112,7 @@ showdata({"name":"this is go to shopping","img":"http:\/\/www.baidu.com","price"
 
 ### 设置自定义函数和自定义类文件
 ```json
-在项目下的composer.json中添加信息
+//在项目下的composer.json中添加信息
 "autoload": {
         "classmap": [
             "database"
@@ -197,12 +197,15 @@ abstract class Controller extends BaseController
     }
 ```
 
-###  配置二级域名
+###  配置二级域名 
+####  方式一[二开后的]
 * 第一步：在config目录下建立`routes.php`文件，内容如下
 ```php
     return [
-        'admin_host' => 'admin',//后台
-        'www_host' => 'www',//前台
+        'routes' => [
+            'admin' => 'admin',//后台
+            'www' => 'home',//前台
+        ],
     ];
 ```
 * 第二步：在`app\Http`下建立`Routes`文件夹，然后里面建立各个模块文件夹，比如`Admin(后台)` `Home（前台）` ，然后在Admin或Home下建立`routes.php`文件
@@ -210,27 +213,63 @@ abstract class Controller extends BaseController
 ```php
     public function map(Router $router)
     {
-        $hostPrefix = substr($_SERVER['HTTP_HOST'],0, stripos($_SERVER['HTTP_HOST'], '.'));
-        if (config('routes.'.$hostPrefix.'_host')) {
-            $func = 'map'.ucwords($hostPrefix);
-            $this->$func($router);
-        } else {
-            abort(404);
+        $configs = config('routes.routes');
+        //如下判断是为了防止artisan命令失效
+        if (isset($_SERVER['HTTP_HOST'])) {
+            $hostPrefix = substr($_SERVER['HTTP_HOST'],0, stripos($_SERVER['HTTP_HOST'], '.'));
+            if (isset($configs[$hostPrefix])) {
+                $this->mapRoutes($router, $configs[$hostPrefix]);
+            } else {
+                abort(404);
+            }
+        }
+        //artisan 命令情况下将载入所有站点的路由规则
+        if (isset($_SERVER['PHP_SELF']) && $_SERVER['PHP_SELF']=='artisan') {
+            $this->mapRoutes($router, $configs);
         }
     }
 
     /**
-     * 后台路由规则定义
-     * @param  $router
+     * 载入对应站点的路由规则
+     * @param $router
+     * @param $web  配置的站点  在config/routes.php文件中
      */
-    protected function mapAdmin($router)
+    protected function mapRoutes($router, $web)
     {
-        $router->group(['namespace' => $this->namespace], function(){
-            require app_path('Http/Routes/Admin/routes.php');
-        });
+        if (!is_array($web)) {
+            $router->group(['namespace' => $this->namespace], function () use ($web){
+                require app_path('Http/Routes/'. ucwords($web) .'/routes.php');
+            });
+        } else {
+            $router->group(['namespace' => $this->namespace], function () use ($web){
+                foreach ($web as $values) {
+                    require app_path('Http/Routes/'. ucwords($values) .'/routes.php');
+                }
+            });
+        }
     }
 ```
 * 第四步：服务器配置二级域名 比如：`admin.laravel.cn(后台)` `www.laravel.cn(前台)`
+####   方式二 [laravel自带的]
+* 子域名可以通过domain关键字来设置：
+```php
+    Route::group(['domain'=>'{service}.laravel.app'],function(){
+        Route::get('/write/laravelacademy',function($service){
+            return "Write FROM {$service}.laravel.app";
+        });
+        Route::get('/update/laravelacademy',function($service){
+            return "Update FROM {$service}.laravel.app";
+        });
+    });
+    //这样我们在浏览器中访问http://write.laravel.app:8000/write/laravelacademy，则输出
+    
+    //Write FROM write.laravel.app
+    //访问http://update.laravel.app:8000/write/laravelacademy时，则输出：
+    
+    //Write FROM update.laravel.app
+    //注意：要想让子域名解析生效，需要在hosts中绑定IP地址
+```
+
 
 
 

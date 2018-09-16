@@ -19,9 +19,9 @@
  */
 
 //引入Home的路由规则
-//require __DIR__ . '/Routes/Home/routes.php';
+require __DIR__ . '/Routes/Home/routes.php';
 //引入Admin的路由规则
-//require __DIR__ . '/Routes/Admin/routes.php';
+require __DIR__ . '/Routes/Admin/routes.php';
 
 
 

@@ -38,35 +38,41 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map(Router $router)
     {
-        $hostPrefix = substr($_SERVER['HTTP_HOST'],0, stripos($_SERVER['HTTP_HOST'], '.'));
-        if (config('routes.'.$hostPrefix.'_host')) {
-            $func = 'map'.ucwords($hostPrefix);
-            $this->$func($router);
-        } else {
-            abort(404);
+        $configs = config('routes.routes');
+        //如下判断是为了防止artisan命令失效
+        if (isset($_SERVER['HTTP_HOST'])) {
+            $hostPrefix = substr($_SERVER['HTTP_HOST'],0, stripos($_SERVER['HTTP_HOST'], '.'));
+            if (isset($configs[$hostPrefix])) {
+                $this->mapRoutes($router, $configs[$hostPrefix]);
+            } else {
+                abort(404);
+            }
+        }
+        //artisan 命令情况下将载入所有站点的路由规则
+        if (isset($_SERVER['PHP_SELF']) && $_SERVER['PHP_SELF']=='artisan') {
+            $this->mapRoutes($router, $configs);
         }
     }
 
     /**
-     * 后台路由规则定义
-     * @param  $router
+     * 载入对应站点的路由规则
+     * @param $router
+     * @param $web  配置的站点  在config/routes.php文件中
      */
-    protected function mapAdmin($router)
+    protected function mapRoutes($router, $web)
     {
-        $router->group(['namespace' => $this->namespace], function(){
-            require app_path('Http/Routes/Admin/routes.php');
-        });
+        if (!is_array($web)) {
+            $router->group(['namespace' => $this->namespace], function () use ($web){
+                require app_path('Http/Routes/'. ucwords($web) .'/routes.php');
+            });
+        } else {
+            $router->group(['namespace' => $this->namespace], function () use ($web){
+                foreach ($web as $values) {
+                    require app_path('Http/Routes/'. ucwords($values) .'/routes.php');
+                }
+            });
+        }
     }
 
-    /**
-     * 前台路由规则定义
-     * @param  $router
-     */
-    protected function mapWww($router)
-    {
-        $router->group(['namespace' => $this->namespace], function(){
-            require app_path('Http/Routes/Home/routes.php');
-        });
-    }
 
 }

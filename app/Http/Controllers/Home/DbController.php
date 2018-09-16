@@ -15,6 +15,7 @@ class DbController extends Controller
 {
     public function index()
     {
+        return redirect()->action('Home\DbController@getDemo');
         return 'this is db demo';
     }
 
@@ -25,8 +26,12 @@ class DbController extends Controller
         echo $url = action('Home\DbController@getList');
     }
 
-    public function getList()
+    public function getList(Request $request)
     {
+        echo $request->fullUrl();
+        print_r($request->method());
+        dd($request->route()->getAction());
+        exit();
 
         $environment = app()->environment();
         dd($environment);
