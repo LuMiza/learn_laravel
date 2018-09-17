@@ -63,12 +63,20 @@ class RouteServiceProvider extends ServiceProvider
     {
         if (!is_array($web)) {
             $router->group(['namespace' => $this->namespace], function () use ($web){
-                require app_path('Http/Routes/'. ucwords($web) .'/routes.php');
+                $route_path = app_path('Http/Routes/'. ucwords($web) .'/routes.php');
+                if (file_exists($route_path)) {
+                    require $route_path;
+                } else {
+                    abort(404);
+                }
             });
         } else {
             $router->group(['namespace' => $this->namespace], function () use ($web){
                 foreach ($web as $values) {
-                    require app_path('Http/Routes/'. ucwords($values) .'/routes.php');
+                    $route_path = app_path('Http/Routes/'. ucwords($values) .'/routes.php');
+                    if (file_exists($route_path)) {
+                        require $route_path;
+                    }
                 }
             });
         }

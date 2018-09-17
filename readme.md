@@ -198,7 +198,7 @@ abstract class Controller extends BaseController
 ```
 
 ###  配置二级域名 
-####  方式一[二开后的]
+####  方式一 [二开后的] [推荐]
 * 第一步：在config目录下建立`routes.php`文件，内容如下
 ```php
     return [
@@ -238,19 +238,27 @@ abstract class Controller extends BaseController
     {
         if (!is_array($web)) {
             $router->group(['namespace' => $this->namespace], function () use ($web){
-                require app_path('Http/Routes/'. ucwords($web) .'/routes.php');
+                $route_path = app_path('Http/Routes/'. ucwords($web) .'/routes.php');
+                if (file_exists($route_path)) {
+                    require $route_path;
+                } else {
+                    abort(404);
+                }
             });
         } else {
             $router->group(['namespace' => $this->namespace], function () use ($web){
                 foreach ($web as $values) {
-                    require app_path('Http/Routes/'. ucwords($values) .'/routes.php');
+                    $route_path = app_path('Http/Routes/'. ucwords($values) .'/routes.php');
+                    if (file_exists($route_path)) {
+                        require $route_path;
+                    }
                 }
             });
         }
     }
 ```
 * 第四步：服务器配置二级域名 比如：`admin.laravel.cn(后台)` `www.laravel.cn(前台)`
-####   方式二 [laravel自带的]
+####   方式二 [laravel自带的] [不推荐]
 * 子域名可以通过domain关键字来设置：
 ```php
     Route::group(['domain'=>'{service}.laravel.app'],function(){
@@ -260,6 +268,11 @@ abstract class Controller extends BaseController
         Route::get('/update/laravelacademy',function($service){
             return "Update FROM {$service}.laravel.app";
         });
+        
+        Route::get('/',function($service){
+            return "Write FROM {$service}.laravel.cn";
+        });
+        //如果这样 比如配置的二级域名为 write.laravel.app ，这样访问是会报错的
     });
     //这样我们在浏览器中访问http://write.laravel.app:8000/write/laravelacademy，则输出
     
@@ -268,7 +281,12 @@ abstract class Controller extends BaseController
     
     //Write FROM update.laravel.app
     //注意：要想让子域名解析生效，需要在hosts中绑定IP地址
+    
+    
 ```
+
+### 额外知识插入：
+* mongodb的默认端口是27017  那么要启用mongodb的web控制台的话，在启用mongod的服务时候 加一个参数 `--httpinterface`,然后在浏览器中输入ip地址+mongodb的默认端口号+1000 【http://192.168.80.137:28017/】
 
 
 
