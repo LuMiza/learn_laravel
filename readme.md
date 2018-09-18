@@ -208,7 +208,7 @@ abstract class Controller extends BaseController
         ],
     ];
 ```
-* 第二步：在`app\Http`下建立`Routes`文件夹，然后里面建立各个模块文件夹，比如`Admin(后台)` `Home（前台）` ，然后在Admin或Home下建立`routes.php`文件
+* 第二步：在`app\Http`下建立`Routes`文件夹，比如`Admin.php(后台路由)` `Home.php（前台路由）` 
 * 第三步：对文件`RouteServiceProvider.php`中的代码进行改写,代码如下
 ```php
     public function map(Router $router)
@@ -238,7 +238,7 @@ abstract class Controller extends BaseController
     {
         if (!is_array($web)) {
             $router->group(['namespace' => $this->namespace], function () use ($web){
-                $route_path = app_path('Http/Routes/'. ucwords($web) .'/routes.php');
+                $route_path = app_path('Http/Routes/'. ucwords($web) .'.php');
                 if (file_exists($route_path)) {
                     require $route_path;
                 } else {
@@ -248,7 +248,7 @@ abstract class Controller extends BaseController
         } else {
             $router->group(['namespace' => $this->namespace], function () use ($web){
                 foreach ($web as $values) {
-                    $route_path = app_path('Http/Routes/'. ucwords($values) .'/routes.php');
+                    $route_path = app_path('Http/Routes/'. ucwords($values) .'.php');
                     if (file_exists($route_path)) {
                         require $route_path;
                     }
@@ -287,6 +287,13 @@ abstract class Controller extends BaseController
 
 ### 额外知识插入：
 * mongodb的默认端口是27017  那么要启用mongodb的web控制台的话，在启用mongod的服务时候 加一个参数 `--httpinterface`,然后在浏览器中输入ip地址+mongodb的默认端口号+1000 【http://192.168.80.137:28017/】
+* 如何判断参数是否是匿名函数`$name instanceof Closure`
+```php
+    function test($name) {
+        var_dump($name instanceof  Closure);
+        //如果$name 是匿名函数  那么就为true，否则false
+    }
+```
 
 
 

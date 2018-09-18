@@ -10,8 +10,8 @@
 Route::group([ 'as' => 'admin::'], function () {
 
     //权限管理路由
-    require  __DIR__.'/Index.php';
-    require  __DIR__.'/permission.php';
+    require  __DIR__.'/Webs/Admin/Index.php';
+    require  __DIR__.'/Webs/Admin/permission.php';
 
 
 });

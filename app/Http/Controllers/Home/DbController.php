@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,12 @@ class DbController extends Controller
 
     public function getDemo()
     {
+        $collection = collect([1, 2, 3, 4, 5, 6, 7]);
+
+        $chunks = $collection->chunk(4);
+        dd($chunks->toArray());
+        $values = Cache::store('file')->get('foo','rumble');
+        dd($values);
 //        echo $url = url('foo');
 //        echo '<br/>this is laravel demo<br/>';
         echo $url = action('Home\DbController@getList');
