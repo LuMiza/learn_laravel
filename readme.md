@@ -1,4 +1,10 @@
 # 学习laravel
+### 框架说明：
+  laravel中采用了pipeline[管道设计模式]，其中middleware就是采用该设计模式；依赖注入和控制反转[laravel中的容器采用的就是这种方式];
+  
+#### 什么是控制反转（IoC）和依赖注入（DI）
+* 控制反转(IoC) 就是说把创建对象的** 控制权 进行转移，以前创建对象的主动权和创建时机是由自己把控的，而现在这种权力转移到第三方，也就是 Laravel ** 中的容器。
+* 依赖注入（DI）则是帮助容器实现在运行中动态的为对象提供提依赖的资源。
 
  ###  控制器创建
   * php artisan make:controller Home/InitController --plain
