@@ -25,6 +25,7 @@ class DbController extends Controller
 
     public function getRemote()
     {
+
         $ftp = new FTP();
         $ftp->upload('');
     }
