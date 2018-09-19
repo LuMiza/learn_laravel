@@ -291,6 +291,40 @@ abstract class Controller extends BaseController
     
 ```
 
+### 事件与监听器
+
+* 第一种：通过`EventServiceProvider.php`的属性`$listen`来注册事件与对应的监听器，如下代码：
+```php
+   protected $listen = [
+        //事件
+        'App\Events\Admin\SomeEvent' => [
+            //SomeEvent 对应的监听器，可以SomeEvent可以对应多个监听器
+            'App\Listeners\Admin\EventListener',
+        ],
+    ];
+```
+* 然后通过php artisan event:generate 命令来生成`EventServiceProvider.php`的属性`$listen`配置好的事件以及对应的监听器,关于SomeEvent事件的行为逻辑定义可以根据需求开发定义，然后在监听器EventListener中的handle方法中进行监听操作,最后我们触发事件，如下代码：
+```php
+//触发事件可以用助手函数event 或 Event::fire()来触发
+event(new SomeEvent());//触发事件
+Event::fire(new SomeEvent());//触发事件
+```
+
+* 第二种：手动注册事件，`EventServiceProvider.php`中的`boot`方法内`DispatcherContract $events`来注册事件，如下代码:
+```php
+$events->listen('log.notice', function ($ars) {
+    header('Content-type:text/html;charset=utf-8;');
+    print_r($ars);
+    echo '<br/>这个是手动注册事件<br/>';
+});
+```
+* 调用方式如下:
+```php
+event('log.notice',[444,5522]);//方式1
+Event::fire('log.notice',[444,55556]);//方式2
+```
+
+
 ### 额外知识插入：
 * mongodb的默认端口是27017  那么要启用mongodb的web控制台的话，在启用mongod的服务时候 加一个参数 `--httpinterface`,然后在浏览器中输入ip地址+mongodb的默认端口号+1000 【http://192.168.80.137:28017/】
 * 如何判断参数是否是匿名函数`$name instanceof Closure`
@@ -300,6 +334,9 @@ abstract class Controller extends BaseController
         //如果$name 是匿名函数  那么就为true，否则false
     }
 ```
+* 字符串截取 `mb_strimwidth('本地化功能提供方便的方法来获取多语言的字符串',0,'10','','UTF-8')`，敢于助手函数，比如处理字符串或者数组的建议不采用，直接用php原生的
+
+
 
 
 

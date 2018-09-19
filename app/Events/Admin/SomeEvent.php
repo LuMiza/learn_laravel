@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\Admin;
 
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
@@ -10,14 +10,16 @@ class SomeEvent extends Event
 {
     use SerializesModels;
 
+    private $msg = null;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($msg)
     {
-        //
+        $this->msg = $msg;
     }
 
     /**
@@ -28,5 +30,10 @@ class SomeEvent extends Event
     public function broadcastOn()
     {
         return [];
+    }
+
+    public function getMsg()
+    {
+        return $this->msg;
     }
 }

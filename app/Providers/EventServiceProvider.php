@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
-            'App\Listeners\EventListener',
+        'App\Events\Admin\SomeEvent' => [
+            'App\Listeners\Admin\EventListener',
         ],
     ];
 
@@ -28,6 +28,11 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot($events);
 
-        //
+
+        $events->listen('log.notice', function () {
+            header('Content-type:text/html;charset=utf-8;');
+            echo '<br/>这个是手动注册事件<br/>';
+        });
+
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Common\Help\FTP;
+use App\Events\Admin\SomeEvent;
 use App\Models\Admin;
 use App\Models\Home\Privilege;
 use Illuminate\Http\Request;
@@ -10,6 +12,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 
 class DbController extends Controller
@@ -20,8 +23,44 @@ class DbController extends Controller
         return 'this is db demo';
     }
 
+    public function getRemote()
+    {
+        $ftp = new FTP();
+        $ftp->upload('');
+    }
+
     public function getDemo()
     {
+        header('Content-type:text/html;charset=utf-8;');
+        echo mb_strimwidth('本地化功能提供方便的方法来获取多语言的字符串',0,'10','','UTF-8');
+        exit();
+        $files = \Storage::allFiles(app_path());
+        dd($files);
+        $post_ =array (
+            'author' => 'Gonn',
+            'mail'=>'gonn@nowamagic.net',
+            'url'=>'http://www.nowamagic.net/',
+            'text'=>'欢迎访问简明现代魔法');
+        $data=http_build_query($post_);
+        $opts = array (
+            'http'=>array(
+                'method' => 'POST',
+                'header'=> "Content-type: application/x-www-form-urlencoded\r\n" .
+                    "Content-Length: " . strlen($data) . "\r\n",
+                'content' => $data)
+        );
+
+        echo $context = stream_context_create($opts);exit;
+        echo $data=http_build_query($post_);exit;
+        echo PATHINFO_EXTENSION;exit;
+        echo storage_path('app');
+        exit;
+//        event('log.notice');
+//        Event::fire('log.notice');
+        event(new SomeEvent('<br>this is my event<br>'));
+        //触发一个事件
+        Event::fire(new SomeEvent('<br>this is my event<br>'));
+        exit;
         $collection = collect([1, 2, 3, 4, 5, 6, 7]);
 
         $chunks = $collection->chunk(4);
