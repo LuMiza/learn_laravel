@@ -324,6 +324,19 @@ event('log.notice',[444,5522]);//方式1
 Event::fire('log.notice',[444,55556]);//方式2
 ```
 
+### 功能开发
+* FTP远程文件操作，类所在地址：`app/Common/Help/FTP.php`，配置信息`config/remote.php`,FTP远程文件上传[`upload`] 文件删除[`delete`] 文件下载[`download`]
+```php
+        $ftp = new FTP();
+        //文件删除
+        $result = $ftp->delete('goods_imgs/2018/09/20/20180920021013_1260.jpg');
+        //文件下载
+        $result = $ftp->download('goods_imgs/2018/09/20/20180920023234_7959.jpg',base_path('Aimage/'));
+        //文件上传
+        $result = $ftp->upload(base_path('Aimage/1.jpg'));
+        //返回值为数组[msg=>提示消息, code=>0:出错；1:成功, path=>'文件路径'] 或者抛出异常  
+```
+
 
 ### 额外知识插入：
 * mongodb的默认端口是27017  那么要启用mongodb的web控制台的话，在启用mongod的服务时候 加一个参数 `--httpinterface`,然后在浏览器中输入ip地址+mongodb的默认端口号+1000 【http://192.168.80.137:28017/】
