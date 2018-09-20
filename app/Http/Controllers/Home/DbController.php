@@ -25,9 +25,18 @@ class DbController extends Controller
 
     public function getRemote()
     {
+//        $str = 'http://t00img.yangkeduo.com/goods/images/2018-09-19/4aeecae077c00406a81c51a74660d7bb.jpeg';
+//        echo dirname($str);
+//        dd(pathinfo($str));
+//        exit;
 
         $ftp = new FTP();
-        $ftp->upload('');
+//        $result = $ftp->delete('goods_imgs/2018/09/20/20180920021013_1260.jpg');
+        $result = $ftp->download('goods_imgs/2018/09/20/20180920023234_7959.jpg',base_path('Aimage/'));
+        dd($result);
+        $result = $ftp->upload(base_path('Aimage/1.jpg'));
+        file_put_contents(base_path('remote_file.txt'),$result['path']."\r\n",FILE_APPEND);
+        dd($result);
     }
 
     public function getDemo()
