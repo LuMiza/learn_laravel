@@ -3,10 +3,10 @@
 return [
     //ftp连接信息
     'ftp' => [
-        'host' => 'rumble.ftp-gz01.bcehost.com',
-        'port' => 8010,
-        'username' => 'rumble',
-        'password' => 'rumblemiza',
+        'host' => '',
+        'port' => ,
+        'username' => '',
+        'password' => '',
         'root_path'     => '/webroot/AAA',//文件存放的根目录【使用绝对地址】
     ],
     //文件将要存放那个目录下
