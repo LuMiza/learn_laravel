@@ -336,7 +336,7 @@ Event::fire('log.notice',[444,55556]);//方式2
         $result = $ftp->upload(base_path('Aimage/1.jpg'));
         //返回值为数组[msg=>提示消息, code=>0:出错；1:成功, path=>'文件路径'] 或者抛出异常  
 ```
-* curl远程文件上传`[form表单文件上传直接上传到远程]`,远程对文件上传的处理在`curl_remote_file_upload`目录里，远程文件上传处理类`app/Common/Help/CurlFile.php`,方法为`upload`,远程上传参数配置信息`config/remote.php`,实现代码示例：
+* curl远程文件上传`[form表单文件上传直接上传到远程]`,远程对文件上传的处理在`curl_remote_file_upload`目录里,只要将`curl_remote_file_upload`中的文件全部复制到远程服务器上，就可以实现远程文件上传，远程文件上传处理类`app/Common/Help/CurlFile.php`,方法为`upload`,远程上传参数配置信息`config/remote.php`,实现代码示例：
 ```php
         //upload方法可以实现多个文件上传，和单文件上传，
         //单文件的话：$_FILES['remote_upload']是个一维数组
