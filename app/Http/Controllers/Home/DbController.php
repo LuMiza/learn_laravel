@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Common\Help\CurlFile;
 use App\Common\Help\FTP;
 use App\Events\Admin\SomeEvent;
 use App\Models\Admin;
@@ -123,5 +124,70 @@ class DbController extends Controller
             file_put_contents('.sqls', "[".date('Y-m-d H:i:s')."]".$sql."\r\n", FILE_APPEND);
         });*/
 
+    }
+
+    public function getFile()
+    {
+        /*$arr = [
+            'file' => [
+                "name" => "1.jpg",
+                "type" => "image/jpeg",
+                "tmp_name" => "/tmp/phprXylSc",
+                "error" => 0,
+                "size" => 275859,
+            ]
+        ];
+        print_r($arr);
+        dd(array_pop($arr));*/
+//        dd( class_exists('Thread') );
+//        header('Content-Type:text/html; charset=utf-8');
+//        dd(decrypt('xJDMY_r2m9XTQwvlehyNvcDf-q-48U4mFtCtY5-L2o9XHRwDTBtx2vl','aQtvAzZSEN3FP3DI'));
+
+//        $t = preg_match('/[1-9]{1}\d{9}$/',decrypt('UGcrXqe8T.MpT9Or1leJlwecnQXgqWXJIoi59fWKe-T8Z4P_Z4lUTI4','aQtvAzZSN3FP3DI'),$t,$res);
+//        dd($res);
+        return view('Home/Db/file');
+    }
+    public function postUpload()
+    {
+
+//        dd($_FILES);
+        $curl = new CurlFile();
+        $result = $curl->upload($_FILES['remote_upload']);
+        dd($result);
+        exit;
+//        $ftp = new FTP();
+//        $result = $ftp->upload($_FILES['remote_upload']['tmp_name']);
+//        dd($result);
+//        dd($_FILES['remote_upload']);
+
+
+        $file= $_FILES['remote_upload']['tmp_name'];
+        if (!class_exists('\CURLFile')) {
+            return ['msg'=>'请将php版本升级至>=5.5', 'code'=>0];
+        }
+        $cfile = new \CURLFile($_FILES['remote_upload']['tmp_name'], $_FILES['remote_upload']['type'], $_FILES['remote_upload']['name']);
+        $post_data=array('file'=>$cfile);
+        $url="http://rumble.gz01.bdysite.com/curl/";
+        $ch = curl_init();   //1.初始化
+        curl_setopt($ch, CURLOPT_URL, $url); //2.请求地址
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);    // https请求 不验证证书和hosts
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);
+        //从 PHP 5.5.0 开始, @ 前缀已被废弃，文件可通过 CURLFile 发送。 设置 CURLOPT_SAFE_UPLOAD 为 TRUE 可禁用 @ 前缀发送文件，以增加安全性。
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);//6.执行
+        dd($response);
+
+        $ch = curl_init('http://rumble.gz01.bdysite.com/curl/');
+
+        $cfile = new \CURLFile($_FILES['remote_upload']['name'],$_FILES['remote_upload']['type'],'@'.$_FILES['remote_upload']['tmp_name']);
+
+        $data = array('test_file' => $cfile);
+        curl_setopt($ch, CURLOPT_POST,1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $response = curl_exec($ch);
+        dd($response);
     }
 }

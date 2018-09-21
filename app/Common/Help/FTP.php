@@ -206,9 +206,12 @@ class FTP
         if (!isset($infos['extension'])) {
             return ['msg'=>$file .' 不是一个文件路径', 'code'=>0];
         }
-        $file_size = round(filesize(base_path('Aimage/1.jpg'))/1024/1024, 2);
+        $file_size = round($infos['size']/1024/1024, 2);
         if ($file_size > $this->max_size) {
             return ['msg'=>'上传的文件大小最多只能'.$this->max_size.'M', 'code'=>0];
+        }
+        if (!in_array($infos['extension'], $this->allow_type)) {
+            return ['msg'=>$infos['basename'].'不允许上传', 'code'=>0];
         }
         if (!$this->save_path) {
             $relative_path = date('Y', time()) . '/' . date('m', time()) . '/' .date('d', time());
@@ -259,7 +262,7 @@ class FTP
     }
 
     /**
-     * 下载文件
+     * 下载文件[下载到指定目录]
      * @param $file 远程文件地址[相对地址]
      * @param $dir 存放的本地目录
      * @return array
@@ -292,5 +295,14 @@ class FTP
             return ['msg'=>'文件下载成功', 'code'=>1, 'path'=>$save];
         }
         return ['msg'=>'文件下载失败', 'code'=>0];
+    }
+
+    /**
+     * 下载文件 [将要下载的文件通过ftp输出到浏览器]
+     * @param $file
+     */
+    public function downloadBrowser($file)
+    {
+
     }
 }

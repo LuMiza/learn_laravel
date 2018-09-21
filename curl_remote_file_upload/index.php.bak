@@ -1,0 +1,23 @@
+<?php
+header('Content-Type:application/json; charset=utf-8');
+date_default_timezone_set('Asia/Shanghai');
+echo json_encode($_FILES);
+exit();
+$relative_path =  'goods_imgs/'.date('Y',time()) .'/' .date('m',time()).'/'.date('d',time());
+$root_path = __DIR__;
+$save_path = $root_path .'/'.$relative_path;
+if (!file_exists($save_path) ){
+    mkdir($save_path,0777,true);
+}
+$infos = pathinfo(ltrim($_FILES['file']['name'],'@'));
+if (!isset($infos['extension'])) {
+    echo json_encode(['msg'=>'不是一个合法的文件', 'code'=>0]);
+    exit();
+}
+$fileName = $relative_path . '/' .date('YmdHis',time()).'_'.mt_rand(1,9999) .'.' . $infos['extension'];
+if (!move_uploaded_file($_FILES['file']['tmp_name'],$root_path.'/'.$fileName)) {
+    echo json_encode(['msg'=>'文件上传失败', 'code'=>0]);
+    exit();
+}
+echo json_encode(['msg'=>'文件上传成功', 'code'=>1, 'path'=>$fileName]);
+exit();

@@ -336,7 +336,33 @@ Event::fire('log.notice',[444,55556]);//方式2
         $result = $ftp->upload(base_path('Aimage/1.jpg'));
         //返回值为数组[msg=>提示消息, code=>0:出错；1:成功, path=>'文件路径'] 或者抛出异常  
 ```
-
+* curl远程文件上传`[form表单文件上传直接上传到远程]`,远程对文件上传的处理在`curl_remote_file_upload`目录里，远程文件上传处理类`app/Common/Help/CurlFile.php`,方法为`upload`,远程上传参数配置信息`config/remote.php`,实现代码示例：
+```php
+        //upload方法可以实现多个文件上传，和单文件上传，
+        //单文件的话：$_FILES['remote_upload']是个一维数组
+        //多文件的话：$_FILES['remote_upload']是一个二维数组
+        //无论是多文件上传还是单文件上传，都直接将$_FILES['remote_upload']传入，upload会自行处理单文件与多文件
+        $curl = new CurlFile();
+        $result = $curl->upload($_FILES['remote_upload']);
+        dd($result);
+        
+        /*
+        //单文件返回
+        ["msg" => "文件上传成功"
+          "code" => 1
+          "path" =>  "goods_imgs/2018/09/21/20180921162217_9021.jpg"
+        ]
+        //多文件返回
+        ["msg" => "文件上传成功"
+          "code" => 1
+          "path" => array:4 [
+            0 => "goods_imgs/2018/09/21/20180921162217_9021.jpg"
+            1 => "goods_imgs/2018/09/21/20180921162217_3764.jpg"
+            2 => "goods_imgs/2018/09/21/20180921162217_1106.png"
+            3 => "goods_imgs/2018/09/21/20180921162217_5182.png"
+          ]
+        ]*/
+```
 
 ### 额外知识插入：
 * mongodb的默认端口是27017  那么要启用mongodb的web控制台的话，在启用mongod的服务时候 加一个参数 `--httpinterface`,然后在浏览器中输入ip地址+mongodb的默认端口号+1000 【http://192.168.80.137:28017/】
