@@ -64,6 +64,7 @@ if (! function_exists('decrypt')) {
      * 解密函数
      * @param string $txt 需要解密的字符串
      * @param string $key 密匙
+     * @param int $ttl 时间 单位秒，如果$ttl大于0，那么会对加密字符串进行时间判断，超过这个时间则返回null
      * @return string 字符串类型的返回结果
      */
     function decrypt($txt, $key = '', $ttl = 0){

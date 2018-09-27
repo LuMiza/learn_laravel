@@ -26,6 +26,14 @@ class DbController extends Controller
 
     public function getRemote()
     {
+        header('Content-type:text/html;charset=utf-8;');
+
+        dd(new FTP());
+        $key = 'rumble';
+        $en = encrypt('hello',$key);
+        echo $en ,'<br>';
+        echo decrypt($en,$key);
+        exit;
 //        $str = 'http://t00img.yangkeduo.com/goods/images/2018-09-19/4aeecae077c00406a81c51a74660d7bb.jpeg';
 //        echo dirname($str);
 //        dd(pathinfo($str));
