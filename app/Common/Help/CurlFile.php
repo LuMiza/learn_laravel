@@ -129,7 +129,7 @@ class CurlFile
          *  encrypt(str_randoms(16).(time()+60), $this->app_key)
          */
         $headers = [
-            'X-CSRF-TOKEN:'. encrypt(str_randoms(16).(time()+60), $this->app_key),
+            'X-CSRF-TOKEN:'. enVal(str_randoms(16).(time()+60), $this->app_key),
         ];
         $ch = curl_init();   //1.初始化
         //兼容https
