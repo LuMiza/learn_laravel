@@ -27,7 +27,12 @@ class DbController extends Controller
     public function getRemote()
     {
         header('Content-type:text/html;charset=utf-8;');
-
+        $post_ =array (
+            'author' => 'Gonn',
+            'mail'=>'gonn@nowamagic.net',
+            'url'=>'http://www.nowamagic.net/',
+            'text'=>'欢迎访问简明现代魔法');
+        dd(new Admin\Privilege());
         dd(new FTP());
         $key = 'rumble';
         $en = encrypt('hello',$key);
